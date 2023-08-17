@@ -59,8 +59,8 @@ public class Pedido extends abstractEntity{
     private LocalDateTime cadastro;
 
     @Getter @Setter
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "funcionario")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "funcionario")
     private Funcionario funcionario;
 
 
