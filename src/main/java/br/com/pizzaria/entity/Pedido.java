@@ -32,12 +32,12 @@ public class Pedido extends abstractEntity{
 
     @Getter @Setter
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pizza_id",nullable = false)
+    @JoinColumn(name = "pizza_id")
     private List<Pizza> pizzas;
 
     @Getter @Setter
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produtos",nullable = false)
+    @JoinColumn(name = "produtos")
     private List<Produto> produtos;
 
 

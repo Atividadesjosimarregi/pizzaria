@@ -26,7 +26,7 @@ public class Endereco extends abstractEntity{
 
     @Getter @Setter
     @Column(name = "cep",nullable = false)
-    private int cep;
+    private String cep;
 
     @Setter
     @ManyToOne
