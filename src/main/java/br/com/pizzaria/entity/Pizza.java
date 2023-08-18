@@ -29,7 +29,7 @@ public class Pizza extends abstractEntity{
     private List<Sabor> sabores;
 
     @Getter @Setter
-    @Column(name = "preco",nullable = false)
+    @Column(name = "preco")
     private float preco;
 
 

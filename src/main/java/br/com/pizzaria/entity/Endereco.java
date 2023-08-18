@@ -22,7 +22,7 @@ public class Endereco extends abstractEntity{
 
     @Getter @Setter
     @Column(name = "observacao", length = 100)
-    private int observacao;
+    private String observacao;
 
     @Getter @Setter
     @Column(name = "cep",nullable = false)

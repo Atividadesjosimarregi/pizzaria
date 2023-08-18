@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "EstoqueProdutos",schema = "public")
+@Table(name = "Estoque_tb",schema = "public")
 public class Estoque extends abstractEntity{
 
     @Getter @Setter

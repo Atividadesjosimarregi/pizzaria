@@ -22,7 +22,7 @@ public class EnderecoDTO extends AbstractDTO {
     private int numero;
 
 
-    private int observacao;
+    private String observacao;
 
 
     private String cep;

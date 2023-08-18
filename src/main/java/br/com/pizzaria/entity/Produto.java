@@ -32,6 +32,6 @@ public class Produto extends abstractEntity{
                     name = "estoque_id"
             )
     )
-    private List<Produto> produtos;
+    private List<Estoque> estoques;
 
 }

@@ -22,7 +22,7 @@ public class Pedido extends abstractEntity{
     private Cliente cliente;
 
     @Getter @Setter
-    @Column(name = "preco",nullable = false)
+    @Column(name = "preco")
     private float preco;
 
     @Enumerated(EnumType.STRING)

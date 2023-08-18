@@ -22,10 +22,17 @@ public class PedidoService {
     @Transactional(rollbackFor = Exception.class)
     public void cadastrarPedido(final PedidoDTO pedido){
 
+        float total = 0;
         var pedidos = new Pedido();
         BeanUtils.copyProperties(pedido,pedidos);
 
+        if(pedidos.getPizzas().size() >= 1){
+            for(int i=0;i<pedidos.getPizzas().size(); i++) {
+                total += pedidos.getPizzas().get(i).getPreco();
+            }
+        }
 
+        pedidos.setPreco(total);
 
 
         this.pedidoRep.save(pedidos);

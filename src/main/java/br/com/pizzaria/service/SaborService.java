@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class SaborService {
@@ -24,8 +25,7 @@ public class SaborService {
         var sabors = new Sabor();
         BeanUtils.copyProperties(sabor,sabors);
 
-
-
+        Assert.isTrue(sabors.getSabor() != null,"Nome do sabor não pode ser nulo");
 
         this.saborRep.save(sabors);
     }
@@ -39,6 +39,8 @@ public class SaborService {
         if (saborExistente != null) {
 
             BeanUtils.copyProperties(saborDTO, saborExistente);
+
+            Assert.isTrue(saborExistente.getSabor() != null,"Nome do sabor não pode ser nulo");
 
 
             this.saborRep.save(saborExistente);
