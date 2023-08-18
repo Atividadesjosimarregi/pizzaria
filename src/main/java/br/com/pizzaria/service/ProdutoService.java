@@ -43,6 +43,8 @@ public class ProdutoService {
 
             BeanUtils.copyProperties(produtoDTO, produtoExistente);
 
+            Assert.isTrue(produtoExistente.getQuantidade() != 0 ,"A quantidade não pode ser nulo");
+
 
             this.produtoRep.save(produtoExistente);
         }

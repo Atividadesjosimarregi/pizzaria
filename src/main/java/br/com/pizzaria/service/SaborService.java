@@ -37,12 +37,14 @@ public class SaborService {
         Sabor saborExistente = this.saborRep.findById(saborDTO.getId()).orElse(null);
 
 
+
+
         if (saborExistente != null) {
 
             BeanUtils.copyProperties(saborDTO, saborExistente);
 
             Assert.isTrue(saborExistente.getSabor() != null,"Nome do sabor não pode ser nulo");
-
+            Assert.isTrue(saborExistente.getSabor().length() <= 100,"Nome pode ter até 100 caracteres");
 
             this.saborRep.save(saborExistente);
         }

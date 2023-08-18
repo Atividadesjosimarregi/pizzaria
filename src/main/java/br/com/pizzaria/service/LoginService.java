@@ -46,6 +46,9 @@ public class LoginService {
 
             BeanUtils.copyProperties(loginDTO, loginExistente);
 
+            Assert.isTrue(loginExistente.getLogin().length() <=40 ,"Login só pode ter até 40 caracteres");
+            Assert.isTrue(loginExistente.getLogin() != null,"Login não pode ser nulo");
+
 
             this.loginRep.save(loginExistente);
         }

@@ -69,6 +69,10 @@ public class PizzaService {
 
             BeanUtils.copyProperties(pizzaDTO, pizzaExistente);
 
+            Assert.isTrue(pizzaExistente.getSabores() != null,"A pizza deve conter pelo menos 1 sabor");
+            Assert.isTrue(pizzaExistente.getQuantidade() != 0,"Adicione a quantidade de pizzas");
+            Assert.isTrue(pizzaExistente.getTamanho() != null,"Tamanho não pode ser nulo");
+
 
             this.pizzaRep.save(pizzaExistente);
         }

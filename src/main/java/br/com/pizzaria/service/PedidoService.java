@@ -44,9 +44,6 @@ public class PedidoService {
         Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
 
 
-
-
-
         if(pedidos.getPizzas().size() >= 1){
             for(int i=0;i<pedidos.getPizzas().size(); i++) {
                 total += pedidos.getPizzas().get(i).getPreco();
@@ -74,6 +71,12 @@ public class PedidoService {
         float total = 0;
         var pedidos = new Pedido();
         BeanUtils.copyProperties(pedidoDTO, pedidoExistente);
+
+
+
+        Assert.isTrue(pedidos.getCliente() != null,"Cliente não pode ser nulo");
+        Assert.isTrue(pedidos.getFuncionario() != null, "Funcionário não pode ser nulo");
+        Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
 
         if(pedidoExistente.getPizzas().size() >= 1){
             for(int i=0;i<pedidoExistente.getPizzas().size(); i++) {

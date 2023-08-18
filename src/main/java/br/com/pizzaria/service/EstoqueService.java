@@ -49,6 +49,11 @@ public class EstoqueService {
 
             BeanUtils.copyProperties(estoqueDTO, estoqueExistente);
 
+            Assert.isTrue(estoqueExistente.getNome().length() <=150,"Nome pode ter até 150 caracteres");
+            Assert.isTrue(estoqueExistente.getNome() != null,"Nome não pode ser nulo");
+
+
+            Assert.isTrue(estoqueExistente.getPreco() != 0, "Preço não pode ser nulo");
 
             this.estoqueRep.save(estoqueExistente);
         }
