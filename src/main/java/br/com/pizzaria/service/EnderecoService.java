@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class EnderecoService {
@@ -20,6 +21,22 @@ public class EnderecoService {
 
         var enderecos = new Endereco();
         BeanUtils.copyProperties(endereco,enderecos);
+
+        Assert.isTrue(enderecos.getRua().length() <=50,"Endereço só pode ter até 50 caracteres");
+        Assert.isTrue(enderecos.getRua() != null,"Endereço não pode ser nulo");
+
+        Assert.isTrue(enderecos.getBairro().length() <=50,"Bairro só pode ter até 50 caracteres");
+        Assert.isTrue(enderecos.getBairro() != null,"Bairro não pode ser nulo");
+
+        Assert.isTrue(enderecos.getNumero() != 0,"Número não pode ser nulo");
+
+        Assert.isTrue(enderecos.getObservacao().length() <= 100,"Observação tem o máximo de 100 caracteres");
+
+        Assert.isTrue(enderecos.getCep().length() <= 15,"Cep só pode ter até 15 caracteres");
+        Assert.isTrue(enderecos.getCep() != null,"Cep não pode ser nulo");
+
+
+
 
 
 

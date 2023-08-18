@@ -21,6 +21,9 @@ public class ClienteService {
         var clientes = new Cliente();
         BeanUtils.copyProperties(cliente,clientes);
 
+        Assert.isTrue(clientes.getNome().length() <=50,"Nome só pode ter até 50 caracteres");
+        Assert.isTrue(clientes.getNome() != null,"Nome não pode ser nulo");
+
 
 
 

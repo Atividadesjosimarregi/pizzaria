@@ -43,7 +43,7 @@ public class Pedido extends abstractEntity{
 
 
     @Getter @Setter
-    @Column(name = "delivery",nullable = false)
+    @Column(name = "delivery")
     private boolean delivery;
 
     @Getter @Setter

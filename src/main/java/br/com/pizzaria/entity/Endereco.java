@@ -17,7 +17,7 @@ public class Endereco extends abstractEntity{
     private String bairro;
 
     @Getter @Setter
-    @Column(name = "numero",nullable = false, length = 50)
+    @Column(name = "numero",nullable = false)
     private int numero;
 
     @Getter @Setter
@@ -25,7 +25,7 @@ public class Endereco extends abstractEntity{
     private String observacao;
 
     @Getter @Setter
-    @Column(name = "cep",nullable = false)
+    @Column(name = "cep",nullable = false,length = 15)
     private String cep;
 
     @Setter

@@ -20,6 +20,7 @@ public class PedidoDTO extends AbstractDTO{
     private Cliente cliente;
 
 
+    @Getter @Setter
     private float preco;
 
 

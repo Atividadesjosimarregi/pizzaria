@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Sabor extends abstractEntity{
 
     @Getter @Setter
-    @Column(name = "sabor",nullable = false,unique = true)
+    @Column(name = "sabor",nullable = false,unique = true,length = 100)
     private String sabor;
 
 

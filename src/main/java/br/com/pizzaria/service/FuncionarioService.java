@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class FuncionarioService {
@@ -22,6 +23,9 @@ public class FuncionarioService {
 
         var funcionarios = new Funcionario();
         BeanUtils.copyProperties(funcionario,funcionarios);
+
+        Assert.isTrue(funcionarios.getNome().length() <= 80,"Funcionario só pode ter até 80 caracters");
+        Assert.isTrue(funcionarios.getNome() != null,"Nome não pode ser nulo");
 
 
 

@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class ProdutoService {
@@ -23,6 +24,8 @@ public class ProdutoService {
 
         var produtos = new Produto();
         BeanUtils.copyProperties(produto,produtos);
+
+        Assert.isTrue(produtos.getQuantidade() != 0 ,"A quantidade não pode ser nulo");
 
 
 

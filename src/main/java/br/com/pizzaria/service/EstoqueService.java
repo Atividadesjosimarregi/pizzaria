@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class EstoqueService {
@@ -23,6 +24,14 @@ public class EstoqueService {
 
         var estoques = new Estoque();
         BeanUtils.copyProperties(estoque,estoques);
+
+        Assert.isTrue(estoques.getNome().length() <=150,"Nome pode ter até 150 caracteres");
+        Assert.isTrue(estoques.getNome() != null,"Nome não pode ser nulo");
+        Estoque Existente = estoqueRep.findByNome(estoques.getNome());
+        Assert.isTrue( Existente == null || Existente.equals(estoques.getNome()),"Nome já existente");
+
+        Assert.isTrue(estoques.getPreco() != 0, "Preço não pode ser nulo");
+
 
 
 

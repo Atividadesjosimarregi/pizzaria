@@ -3,6 +3,7 @@ package br.com.pizzaria.service;
 import br.com.pizzaria.dto.EnderecoDTO;
 import br.com.pizzaria.dto.LoginDTO;
 import br.com.pizzaria.entity.Endereco;
+import br.com.pizzaria.entity.Estoque;
 import br.com.pizzaria.entity.Login;
 import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.LoginRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 public class LoginService {
@@ -24,6 +26,10 @@ public class LoginService {
         var logins = new Login();
         BeanUtils.copyProperties(login,logins);
 
+        Assert.isTrue(logins.getLogin().length() <=40 ,"Login só pode ter até 40 caracteres");
+        Assert.isTrue(logins.getLogin() != null,"Login não pode ser nulo");
+        Login Existente = loginRep.findByLogin(logins.getLogin());
+        Assert.isTrue( Existente == null || Existente.equals(logins.getLogin()),"Login já existente");
 
 
 

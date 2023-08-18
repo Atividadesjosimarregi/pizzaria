@@ -53,7 +53,7 @@ public class PedidoController {
             if (pedido1 == null || pedido1.getId() != (pedido.getId())){
                 return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
-            this.pedidoServ.atualizaPedido(pedido);
+            this.pedidoServ.atualizaPedido(pedido,id);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){

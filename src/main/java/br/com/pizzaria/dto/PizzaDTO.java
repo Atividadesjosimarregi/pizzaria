@@ -17,6 +17,7 @@ public class PizzaDTO extends AbstractDTO{
 
     private List<Sabor> sabores;
 
+    @Getter @Setter
 
     private float preco;
 

@@ -12,11 +12,11 @@ import lombok.Setter;
 public class Login extends abstractEntity{
 
     @Getter @Setter
-    @Column(name = "login",nullable = false,unique = true)
+    @Column(name = "login",nullable = false,unique = true,length = 40)
     private String login;
 
     @Getter @Setter
-    @Column(name = "senha",nullable = false)
+    @Column(name = "senha",nullable = false,length = 40)
     private String senha;
 
 }

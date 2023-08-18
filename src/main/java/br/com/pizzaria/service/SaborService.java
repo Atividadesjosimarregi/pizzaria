@@ -26,6 +26,7 @@ public class SaborService {
         BeanUtils.copyProperties(sabor,sabors);
 
         Assert.isTrue(sabors.getSabor() != null,"Nome do sabor não pode ser nulo");
+        Assert.isTrue(sabor.getSabor().length() <= 100,"Nome pode ter até 100 caracteres");
 
         this.saborRep.save(sabors);
     }
