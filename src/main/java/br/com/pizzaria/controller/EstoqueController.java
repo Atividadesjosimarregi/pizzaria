@@ -1,5 +1,6 @@
 package br.com.pizzaria.controller;
 
+import br.com.pizzaria.dto.EstoqueDTO;
 import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Estoque;
 import br.com.pizzaria.repository.ClienteRepository;
@@ -33,9 +34,9 @@ public class EstoqueController {
     }
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final Estoque estoque){
+    public ResponseEntity <?> cadastra(@RequestBody final EstoqueDTO estoque){
         try {
-            this.estoqueRep.save(estoque);
+            this.estoqueServ.cadastrarEstoque(estoque);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
@@ -44,14 +45,14 @@ public class EstoqueController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final Estoque estoque){
+    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final EstoqueDTO estoque){
         try {
             final Estoque estoque1 = this.estoqueRep.findById(id).orElse(null);
 
             if (estoque1 == null || estoque1.getId() != (estoque.getId())){
                 return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
-            this.estoqueRep.save(estoque);
+            this.estoqueServ.atualizaEstoque(estoque);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){
@@ -67,7 +68,7 @@ public class EstoqueController {
     public ResponseEntity<?> deleta(@PathVariable Long id) {
         try {
 
-            this.estoqueRep.deleteById(id);
+            this.estoqueServ.excluirEstoque(id);
             return ResponseEntity.ok("Desativado ou excluído");
         }
         catch (RuntimeException e){

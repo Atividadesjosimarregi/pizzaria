@@ -47,11 +47,11 @@ public class Pedido extends abstractEntity{
     private boolean delivery;
 
     @Getter @Setter
-    @Column(name = "cancelado",nullable = false)
+    @Column(name = "cancelado")
     private boolean cancelado;
 
     @Getter @Setter
-    @Column(name = "pagamentoCartao",nullable = false)
+    @Column(name = "pagamentoCartao")
     private boolean pagamentoCartao;
 
     @Getter @Setter

@@ -1,5 +1,6 @@
 package br.com.pizzaria.controller;
 
+import br.com.pizzaria.dto.LoginDTO;
 import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Login;
 import br.com.pizzaria.repository.ClienteRepository;
@@ -34,9 +35,9 @@ public class LoginController {
 
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final Login login){
+    public ResponseEntity <?> cadastra(@RequestBody final LoginDTO login){
         try {
-            this.loginRep.save(login);
+            this.loginServ.cadastrarLogin(login);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
@@ -45,14 +46,14 @@ public class LoginController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final Login login){
+    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final LoginDTO login){
         try {
             final Login login1 = this.loginRep.findById(id).orElse(null);
 
             if (login1 == null || login1.getId() != (login.getId())){
                 return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
-            this.loginRep.save(login);
+            this.loginServ.atualizaLogin(login);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){
@@ -68,7 +69,7 @@ public class LoginController {
     public ResponseEntity<?> deleta(@PathVariable Long id) {
         try {
 
-            this.loginRep.deleteById(id);
+            this.loginServ.excluirLogin(id);
             return ResponseEntity.ok("Desativado ou excluído");
         }
         catch (RuntimeException e){

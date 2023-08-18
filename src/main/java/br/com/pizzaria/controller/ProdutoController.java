@@ -1,5 +1,6 @@
 package br.com.pizzaria.controller;
 
+import br.com.pizzaria.dto.ProdutoDTO;
 import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Produto;
 import br.com.pizzaria.repository.ClienteRepository;
@@ -34,9 +35,9 @@ public class ProdutoController {
 
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final Produto produto){
+    public ResponseEntity <?> cadastra(@RequestBody final ProdutoDTO produto){
         try {
-            this.produtoRep.save(produto);
+            this.produtoServ.cadastrarProduto(produto);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
@@ -45,14 +46,14 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final Produto produto){
+    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final ProdutoDTO produto){
         try {
             final Produto produto1 = this.produtoRep.findById(id).orElse(null);
 
             if (produto1 == null || produto1.getId() != (produto.getId())){
                 return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
-            this.produtoRep.save(produto);
+            this.produtoServ.atualizaProduto(produto);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){
@@ -68,7 +69,7 @@ public class ProdutoController {
     public ResponseEntity<?> deleta(@PathVariable Long id) {
         try {
 
-            this.produtoRep.deleteById(id);
+            this.produtoServ.excluirProduto(id);
             return ResponseEntity.ok("Desativado ou excluído");
         }
         catch (RuntimeException e){

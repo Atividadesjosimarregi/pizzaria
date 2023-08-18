@@ -1,5 +1,6 @@
 package br.com.pizzaria.controller;
 
+import br.com.pizzaria.dto.ClienteDTO;
 import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.service.ClienteService;
@@ -38,9 +39,9 @@ public class ClienteController {
 
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final Cliente cliente){
+    public ResponseEntity <?> cadastra(@RequestBody final ClienteDTO cliente){
         try {
-            this.clienteRep.save(cliente);
+            this.clienteServ.cadastrarCliente(cliente);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
@@ -49,14 +50,14 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final Cliente cliente){
+    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final ClienteDTO cliente){
         try {
             final Cliente cliente1 = this.clienteRep.findById(id).orElse(null);
 
             if (cliente1 == null || cliente1.getId() != (cliente.getId())){
                 return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
-            this.clienteRep.save(cliente);
+            this.clienteServ.atualizaCliente(cliente);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){
@@ -72,8 +73,8 @@ public class ClienteController {
     public ResponseEntity<?> deleta(@PathVariable Long id) {
         try {
 
-            this.clienteRep.deleteById(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            this.clienteServ.excluirCliente(id);
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

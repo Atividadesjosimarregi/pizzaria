@@ -1,5 +1,6 @@
 package br.com.pizzaria.controller;
 
+import br.com.pizzaria.dto.EnderecoDTO;
 import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.repository.ClienteRepository;
@@ -33,9 +34,9 @@ public class EnderecoController {
     }
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final Endereco endereco){
+    public ResponseEntity <?> cadastra(@RequestBody final EnderecoDTO endereco){
         try {
-            this.enderecoRep.save(endereco);
+            this.enderecoServ.cadastrarEndereco(endereco);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
@@ -44,14 +45,14 @@ public class EnderecoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final Endereco endereco){
+    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final EnderecoDTO endereco){
         try {
             final Endereco endereco1 = this.enderecoRep.findById(id).orElse(null);
 
             if (endereco1 == null || endereco1.getId() != (endereco.getId())){
                 return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
-            this.enderecoRep.save(endereco);
+            this.enderecoServ.atualizaEndereco(endereco);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){
@@ -67,7 +68,7 @@ public class EnderecoController {
     public ResponseEntity<?> deleta(@PathVariable Long id) {
         try {
 
-            this.enderecoRep.deleteById(id);
+            this.enderecoServ.excluirEndereco(id);
             return ResponseEntity.ok("Desativado ou excluído");
         }
         catch (RuntimeException e){
