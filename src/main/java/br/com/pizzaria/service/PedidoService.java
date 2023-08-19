@@ -5,6 +5,7 @@ import br.com.pizzaria.dto.PedidoDTO;
 import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.entity.Pedido;
 import br.com.pizzaria.entity.Pizza;
+import br.com.pizzaria.entity.Sabor;
 import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.PedidoRepository;
 import br.com.pizzaria.repository.PizzaRepository;
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -34,7 +36,7 @@ public class PedidoService {
 
         Pizza pizza = this.pizzaRep.findById(1L).orElse(null);
 
-        float total = 0;
+        BigDecimal total = BigDecimal.valueOf(0);
         var pedidos = new Pedido();
         BeanUtils.copyProperties(pedido,pedidos);
 
@@ -44,22 +46,20 @@ public class PedidoService {
         Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
 
 
-        if(pedidos.getPizzas().size() >= 1){
+        pedido.setPreco(pedido.getPizzas().get(0).getPreco());
+
+
+        /*if(pedido.getPizzas().size() >= 1){
             for(int i=0;i<pedidos.getPizzas().size(); i++) {
                 total += pedidos.getPizzas().get(i).getPreco();
                 System.out.println(total);
             }
-        }
+        }*/
 
-        System.out.println(pizza.getPreco());
-        System.out.println(pedidos.getPizzas().get(0).getPreco());
+        //BigDecimal ValorPizzas = pedidos.getPizzas().stream().map(Pizza::getPreco).reduce(BigDecimal.ZERO, BigDecimal::add);
+        //pedidos.setPreco(ValorPizzas);
 
-
-        total = pedido.getPizzas().get(0).getPreco();
-
-        pedidos.setPreco(total);
-
-
+        gerarArquivoPedido(pedidos);
         this.pedidoRep.save(pedidos);
     }
 
@@ -74,18 +74,16 @@ public class PedidoService {
 
 
 
-        Assert.isTrue(pedidos.getCliente() != null,"Cliente não pode ser nulo");
-        Assert.isTrue(pedidos.getFuncionario() != null, "Funcionário não pode ser nulo");
-        Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
+        Assert.isTrue(pedidoExistente.getCliente() != null,"Cliente não pode ser nulo");
+        Assert.isTrue(pedidoExistente.getFuncionario() != null, "Funcionário não pode ser nulo");
+        Assert.isTrue(pedidoExistente.getStatus() != null,"Status não pode ser nulo");
 
-        if(pedidoExistente.getPizzas().size() >= 1){
-            for(int i=0;i<pedidoExistente.getPizzas().size(); i++) {
-                total += pedidoExistente.getPizzas().get(i).getPreco();
-                System.out.println(total);
-            }
-        }
+        BigDecimal ValorPizzas = pedidoExistente.getPizzas().stream().map(Pizza::getPreco).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        pedidoExistente.setPreco(223);
+        pedidoExistente.setPreco(ValorPizzas);
+
+        System.out.println(ValorPizzas);
+
 
         this.pedidoRep.save(pedidoExistente);
 
@@ -102,15 +100,33 @@ public class PedidoService {
         this.pedidoRep.delete(pedidoBanco);
     }
 
-    public void gerarRelatorioCozinha() {
-        List<Pedido> pedidos = pedidoRep.findAll();
+    private void gerarArquivoPedido(Pedido pedido) {
+        try (FileWriter writer = new FileWriter("pedido_" + pedido.getId() + ".txt")) {
+            writer.write("Detalhes do Pedido:\n");
+            writer.write("ID do Pedido: " + pedido.getId() + "\n");
 
-        try (FileWriter writer = new FileWriter("relatorio_cozinha.txt")) {
-            for (Pedido pedido : pedidos) {
-                writer.write("ID do Pedido: " + pedido.getId() + "\n");
-                // Adicione mais detalhes do pedido aqui
+            List<Pizza> pizzas = pedido.getPizzas();
+            for (int i = 0; i < pizzas.size(); i++) {
+                Pizza pizza = pizzas.get(i);
+                writer.write("Pizza " + (i + 1) + ":\n");
+
+                List<Sabor> sabores = pizza.getSabores();
+                if (sabores != null) {
+                    writer.write("Sabores: ");
+                    for (int j = 0; j < sabores.size(); j++) {
+                        writer.write(sabores.get(j).getSabor());
+                        if (j < sabores.size() - 1) {
+                            writer.write(", ");
+                        }
+                    }
+                    writer.write("\n");
+                }
+
+                // Adicione mais detalhes da pizza aqui, como tamanho, preço, etc.
                 writer.write("\n");
             }
+
+            writer.write("\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,4 +134,5 @@ public class PedidoService {
 
 
 
-}
+
+    }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,8 +21,9 @@ public class PedidoDTO extends AbstractDTO{
     private Cliente cliente;
 
 
-    @Getter @Setter
-    private float preco;
+    private boolean entrega;
+
+    private BigDecimal preco;
 
 
     private Status status;
@@ -46,6 +48,9 @@ public class PedidoDTO extends AbstractDTO{
 
 
     private Funcionario funcionario;
+
+
+
 
 
 }

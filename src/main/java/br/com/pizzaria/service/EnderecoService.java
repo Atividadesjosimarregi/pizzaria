@@ -30,7 +30,9 @@ public class EnderecoService {
 
         Assert.isTrue(enderecos.getNumero() != 0,"Número não pode ser nulo");
 
-        Assert.isTrue(enderecos.getObservacao().length() <= 100,"Observação tem o máximo de 100 caracteres");
+        if(enderecos.getObservacao() != null) {
+            Assert.isTrue(enderecos.getObservacao().length() <= 100, "Observação tem o máximo de 100 caracteres");
+        }
 
         Assert.isTrue(enderecos.getCep().length() <= 15,"Cep só pode ter até 15 caracteres");
         Assert.isTrue(enderecos.getCep() != null,"Cep não pode ser nulo");
@@ -62,7 +64,9 @@ public class EnderecoService {
 
             Assert.isTrue(enderecoExistente.getNumero() != 0,"Número não pode ser nulo");
 
-            Assert.isTrue(enderecoExistente.getObservacao().length() <= 100,"Observação tem o máximo de 100 caracteres");
+            if(enderecoExistente.getObservacao() != null) {
+                Assert.isTrue(enderecoExistente.getObservacao().length() <= 100, "Observação tem o máximo de 100 caracteres");
+            }
 
             Assert.isTrue(enderecoExistente.getCep().length() <= 15,"Cep só pode ter até 15 caracteres");
             Assert.isTrue(enderecoExistente.getCep() != null,"Cep não pode ser nulo");

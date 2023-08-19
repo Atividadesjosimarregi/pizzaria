@@ -7,7 +7,7 @@ import lombok.Setter;
 @MappedSuperclass
 public class AbstractDTO {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
     private Long id;
 }

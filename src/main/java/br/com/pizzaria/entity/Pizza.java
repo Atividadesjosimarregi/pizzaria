@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,7 @@ public class Pizza extends abstractEntity{
 
     @Getter @Setter
     @Column(name = "preco")
-    private float preco;
+    private BigDecimal preco;
 
 
     @Getter @Setter

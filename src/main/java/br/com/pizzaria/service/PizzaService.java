@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
+
 @Service
 public class PizzaService {
     @Autowired
@@ -33,26 +35,26 @@ public class PizzaService {
         if(pizzas.getTamanho() == Tamanho.P){
 
             Assert.isTrue(pizzas.getSabores().size() == 1,"Pizza pequena só tem até 1 sabor");
-            pizzas.setPreco(20 * pizzas.getQuantidade());
+            pizzas.setPreco(BigDecimal.valueOf(20 * pizzas.getQuantidade()));
 
         }
 
         if(pizzas.getTamanho() == Tamanho.M){
 
             Assert.isTrue(pizzas.getSabores().size() >= 1 || pizzas.getSabores().size() <= 2,"Pizza Média só tem de 1 a 2 sabores");
-            pizzas.setPreco(30 * pizzas.getQuantidade());
+            pizzas.setPreco(BigDecimal.valueOf(30 * pizzas.getQuantidade()));
         }
 
         if(pizzas.getTamanho() == Tamanho.G){
 
             Assert.isTrue(pizzas.getSabores().size() >= 1 || pizzas.getSabores().size() <= 3,"Pizza Grande só tem de 1 a 3 sabores");
-            pizzas.setPreco(40 * pizzas.getQuantidade());
+            pizzas.setPreco(BigDecimal.valueOf(40 * pizzas.getQuantidade()));
         }
 
         if(pizzas.getTamanho() == Tamanho.GG){
 
             Assert.isTrue(pizzas.getSabores().size() >= 1 || pizzas.getSabores().size() <= 4,"Pizza Gigante só tem de 1 a 4 sabores");
-            pizzas.setPreco(50 * pizzas.getQuantidade());
+            pizzas.setPreco(BigDecimal.valueOf(50 * pizzas.getQuantidade()));
         }
 
 

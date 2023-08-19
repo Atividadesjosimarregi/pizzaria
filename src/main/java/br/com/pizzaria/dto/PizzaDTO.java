@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -17,15 +18,14 @@ public class PizzaDTO extends AbstractDTO{
 
     private List<Sabor> sabores;
 
-    @Getter @Setter
-
-    private float preco;
-
-
+    private BigDecimal preco;
 
     private int quantidade;
 
 
     private Tamanho tamanho;
+
+
+
 
 }

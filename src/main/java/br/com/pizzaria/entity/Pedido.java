@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Pedido extends abstractEntity{
 
     @Getter @Setter
     @Column(name = "preco")
-    private float preco;
+    private BigDecimal preco;
 
     @Enumerated(EnumType.STRING)
     @Getter @Setter
@@ -40,7 +41,9 @@ public class Pedido extends abstractEntity{
     @JoinColumn(name = "produtos")
     private List<Produto> produtos;
 
-
+    @Getter @Setter
+    @Column(name = "entrega")
+    private boolean entrega;
 
     @Getter @Setter
     @Column(name = "delivery")

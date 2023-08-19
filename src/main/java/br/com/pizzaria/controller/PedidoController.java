@@ -3,6 +3,7 @@ package br.com.pizzaria.controller;
 import br.com.pizzaria.dto.PedidoDTO;
 import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Pedido;
+import br.com.pizzaria.entity.Status;
 import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.repository.PedidoRepository;
 import br.com.pizzaria.service.ClienteService;
@@ -11,6 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static br.com.pizzaria.entity.Status.ENTREGUE;
+import static br.com.pizzaria.entity.Status.ANDAMENTO;
+
 
 @RestController
 @RequestMapping(value = "/pedido")
@@ -32,6 +43,74 @@ public class PedidoController {
         return ResponseEntity.ok(this.pedidoRep.findAll());
 
     }
+
+    @GetMapping("/solicitados")
+    public ResponseEntity <?> solicitados(){
+
+        return ResponseEntity.ok(pedidoRep.findByStatus(ANDAMENTO));
+    }
+
+
+
+    @GetMapping("/pedidosDoDia")
+    public List<Pedido> getPedidosDoDia() {
+        LocalDate dataAtual = LocalDate.now();
+
+        LocalDateTime inicioDoDia = dataAtual.atStartOfDay();
+        LocalDateTime fimDoDia = dataAtual.atTime(23, 59, 59);
+
+        List<Pedido> pedidosDoDia = pedidoRep.findByCadastroBetween(inicioDoDia, fimDoDia);
+
+        return pedidosDoDia;
+    }
+
+    @GetMapping("/pedidosEncerradosDoDia")
+    public List<Pedido> getPedidosEncerradosDoDia() {
+        LocalDate dataAtual = LocalDate.now();
+
+        LocalDateTime inicioDoDia = dataAtual.atStartOfDay();
+        LocalDateTime fimDoDia = dataAtual.atTime(23, 59, 59);
+
+        List<Pedido> pedidosEncerradosDoDia = pedidoRep.findByStatusAndCadastroBetween(
+                ENTREGUE, inicioDoDia, fimDoDia
+        );
+
+        return pedidosEncerradosDoDia;
+    }
+
+    @GetMapping("/pedidosCanceladosDoDia")
+    public List<Pedido> getPedidosCanceladosDoDia() {
+        LocalDate dataAtual = LocalDate.now();
+
+        List<Pedido> pedidosCanceladosDoDia = pedidoRep.findByCanceladoAndCadastroBetween(true, dataAtual.atStartOfDay(), dataAtual.atTime(23, 59, 59));
+
+        return pedidosCanceladosDoDia;
+    }
+
+
+    @GetMapping("/delivery/{ativo}")
+    public ResponseEntity<?> delivery(@PathVariable("ativo") boolean delivery) {
+        List<Pedido> pedidos;
+        if (!delivery) {
+            pedidos = pedidoRep.findByDelivery(false);
+        } else {
+            pedidos = pedidoRep.findByDelivery(true);
+        }
+
+        long entregasPorDelivery = pedidos.stream()
+                .filter(pedido -> pedido.isEntrega())
+                .count();
+
+        long entregasPorBalcao = pedidos.size() - entregasPorDelivery;
+
+        Map<String, Long> resultado = new HashMap<>();
+        resultado.put("entregasPorDelivery", entregasPorDelivery);
+        resultado.put("entregasPorBalcao", entregasPorBalcao);
+
+        return ResponseEntity.ok(resultado);
+    }
+
+
 
 
     @PostMapping

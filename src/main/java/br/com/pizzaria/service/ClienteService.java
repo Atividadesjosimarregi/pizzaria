@@ -39,7 +39,7 @@ public class ClienteService {
         if (clienteExistente != null) {
 
             BeanUtils.copyProperties(clienteDTO, clienteExistente);
-            
+
             Assert.isTrue(clienteExistente.getNome().length() <=50,"Nome só pode ter até 50 caracteres");
             Assert.isTrue(clienteExistente.getNome() != null,"Nome não pode ser nulo");
 
