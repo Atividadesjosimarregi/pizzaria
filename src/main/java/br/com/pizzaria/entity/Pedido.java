@@ -67,6 +67,24 @@ public class Pedido extends abstractEntity{
     private Funcionario funcionario;
 
 
+    public Pedido(){
+
+    }
+    public Pedido(Long id,String observacoes, Cliente cliente, float preco, Status status, List<Pizza> pizzas, List<Produto> produtos, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, LocalDateTime cadastro, Funcionario funcionario) {
+        this.id = id;
+        this.observacoes = observacoes;
+        this.cliente = cliente;
+        this.preco = preco;
+        this.status = status;
+        this.pizzas = pizzas;
+        this.produtos = produtos;
+        this.entrega = entrega;
+        this.delivery = delivery;
+        this.cancelado = cancelado;
+        this.pagamentoCartao = pagamentoCartao;
+        this.cadastro = cadastro;
+        this.funcionario = funcionario;
+    }
 
     @PrePersist
     private void prePersist(){

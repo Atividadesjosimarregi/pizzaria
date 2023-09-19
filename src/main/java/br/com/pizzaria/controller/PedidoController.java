@@ -34,20 +34,20 @@ public class PedidoController {
     private PedidoService pedidoServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Pedido> findById(@PathVariable("id") final Long id) {
         final Pedido pedido = this.pedidoRep.findById(id).orElse(null);
         return ResponseEntity.ok(pedido);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Pedido>> List(){
         return ResponseEntity.ok(this.pedidoRep.findAll());
 
     }
 
     @GetMapping("/solicitados")
-    public ResponseEntity <?> solicitados(){
+    public ResponseEntity <List<Pedido>> solicitados(){
 
-        return ResponseEntity.ok(pedidoRep.findByStatus(ANDAMENTO));
+        return ResponseEntity.ok(this.pedidoRep.findByStatus(ANDAMENTO));
     }
 
 
@@ -149,7 +149,7 @@ public class PedidoController {
         try {
 
             this.pedidoServ.excluirPedido(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

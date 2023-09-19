@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +61,11 @@ class PizzariaApplicationTests {
 	@Autowired
 	ProdutoController produtoController;
 
+	@MockBean
+	PedidoRepository pedidoRepository;
+	@Autowired
+	PedidoController pedidoController;
+
 	private List<Cliente> clienteList;
 
 	private List<Funcionario> funcionarioList;
@@ -75,6 +81,8 @@ class PizzariaApplicationTests {
 	private List<Pizza> pizzaList;
 
 	private List<Produto> produtoList;
+
+	private List<Pedido> pedidoList;
 
 	@BeforeEach
 	void injectData() {
@@ -126,6 +134,14 @@ class PizzariaApplicationTests {
 		produtoList.add(produto);
 		produtoList.add(produto2);
 
+		Pedido pedido = new Pedido(1L,"Observation",cliente,20,
+				Status.ANDAMENTO,pizzaList,produtoList,false,false,false,false, LocalDateTime.now(),funcionario);
+		Pedido pedido2 = new Pedido(2L,"Observation2",cliente2,20,
+				Status.ANDAMENTO,pizzaList,produtoList,false,false,false,false, LocalDateTime.now(),funcionario2);
+		pedidoList = new ArrayList<>();
+		pedidoList.add(pedido);
+		pedidoList.add(pedido2);
+
 		Mockito.when(clienteRepository.save(cliente)).thenReturn(cliente);
 		Mockito.when(clienteRepository.save(cliente2)).thenReturn(cliente2);
 		Mockito.when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
@@ -173,6 +189,12 @@ class PizzariaApplicationTests {
 		Mockito.when(produtoRepository.findById(1L)).thenReturn(Optional.of(produto));
 		Mockito.when(produtoRepository.findById(2L)).thenReturn(Optional.of(produto2));
 		Mockito.when(produtoRepository.findAll()).thenReturn(produtoList);
+
+		Mockito.when(pedidoRepository.save(pedido)).thenReturn(pedido);
+		Mockito.when(pedidoRepository.save(pedido2)).thenReturn(pedido2);
+		Mockito.when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedido));
+		Mockito.when(pedidoRepository.findById(2L)).thenReturn(Optional.of(pedido2));
+		Mockito.when(pedidoRepository.findAll()).thenReturn(pedidoList);
 
 
 
@@ -482,7 +504,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testProdutoCriar() {
-		Estoque estoqueTest = new Estoque(3L,30,"Trio Pequeno");
+		Estoque estoqueTest = new Estoque(2L,30,"Trio Pequeno");
 		var produto = produtoController.cadastra(new ProdutoDTO(3,estoqueTest,20));
 		Assert.assertEquals("Registro cadastrado com sucesso", produto.getBody());
 	}
@@ -523,6 +545,66 @@ class PizzariaApplicationTests {
 		}
 	}
 
+
+	@Test
+	void testPedidoCriar() {
+		Cliente clienteTest = new Cliente(1L,"pedro");
+		Funcionario funcionarioT = new Funcionario(1L,"salve");
+
+		var pedido = pedidoController.cadastra(new PedidoDTO("nada",clienteTest,20,Status.ANDAMENTO,pizzaList,produtoList,true,false,false,false,LocalDateTime.now(),funcionarioT));
+		Assert.assertEquals("Registro cadastrado com sucesso", pedido.getBody());
+	}
+
+	@Test
+	void testPutPedido(){
+
+		Cliente clienteTest = new Cliente(1L,"pedro");
+		Funcionario funcionarioT = new Funcionario(1L,"salve");
+		PedidoDTO pedidoDTO = new PedidoDTO("nada",clienteTest,20,Status.ANDAMENTO,pizzaList,produtoList,true,
+				false,false,false,LocalDateTime.now(),funcionarioT);
+		pedidoDTO.setId(1L);
+
+		var pedido = pedidoController.edita(1L, pedidoDTO);
+
+		Assert.assertEquals("Registro Cadastrado com Sucesso", pedido.getBody());
+	}
+
+	@Test
+	void testPedidoDelete(){
+		var pedido = pedidoController.deleta(2L);
+		Assert.assertEquals("excluído", pedido.getBody());
+	}
+
+	@Test
+	void testFindByIdPedido(){
+		Cliente clienteTest = new Cliente(1L,"pedro");
+		Funcionario funcionarioT = new Funcionario(1L,"salve");
+		pedidoController.cadastra(new PedidoDTO("nada",clienteTest,20,Status.ANDAMENTO,pizzaList,produtoList,true,
+				false,false,false,LocalDateTime.now(),funcionarioT));
+		var pedido = pedidoController.findById(1L);
+		Assert.assertEquals(pedido.getBody().getCliente(), pedidoController.findById(1L).getBody().getCliente());
+	}
+
+	@Test
+	void testFindAllPedidos(){
+		ResponseEntity<List<Pedido>> pedidoFuncaoController = pedidoController.List();
+		List<Pedido> pedidoListController = pedidoFuncaoController.getBody();
+		Assert.assertNotNull(pedidoListController);
+		for(int i = 0; i < pedidoList.size();i ++){
+			Assert.assertEquals(pedidoList.get(i), pedidoListController.get(i));
+		}
+	}
+
+	@Test
+	void testFindAndamentoPedidos(){
+		ResponseEntity<List<Pedido>> pedidoFuncaoController = pedidoController.solicitados();
+		List<Pedido> pedidoListController = pedidoFuncaoController.getBody();
+		System.out.println(pedidoFuncaoController);
+		Assert.assertNotNull(pedidoListController);
+		for(int i = 0; i < pedidoList.size();i ++){
+			Assert.assertEquals(pedidoList.get(i), pedidoListController.get(i));
+		}
+	}
 
 
 
