@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/produto")
 public class ProdutoController {
@@ -23,12 +25,12 @@ public class ProdutoController {
     private ProdutoService produtoServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Produto> findById(@PathVariable("id") final Long id) {
         final Produto produto = this.produtoRep.findById(id).orElse(null);
         return ResponseEntity.ok(produto);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Produto>> List(){
         return ResponseEntity.ok(this.produtoRep.findAll());
 
     }
@@ -41,7 +43,7 @@ public class ProdutoController {
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ErrorLá: " + e.getMessage());
         }
     }
 
@@ -70,7 +72,7 @@ public class ProdutoController {
         try {
 
             this.produtoServ.excluirProduto(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

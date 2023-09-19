@@ -14,5 +14,11 @@ public class Sabor extends abstractEntity{
     @Column(name = "sabor",nullable = false,unique = true,length = 100)
     private String sabor;
 
+    public Sabor(){
 
+    }
+    public Sabor(Long id,String sabor) {
+        this.id = id;
+        this.sabor = sabor;
+    }
 }

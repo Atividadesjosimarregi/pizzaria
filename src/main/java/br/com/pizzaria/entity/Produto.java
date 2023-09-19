@@ -25,4 +25,15 @@ public class Produto extends abstractEntity{
     @JoinColumn(name = "estoque_id")
     private Estoque estoques;
 
+
+    public Produto(){
+
+    }
+    public Produto(Long id,int quantidade,Estoque estoques, float precoProduto) {
+        this.id = id;
+        this.quantidade = quantidade;
+        this.estoques = estoques;
+        this.precoProduto = precoProduto;
+
+    }
 }

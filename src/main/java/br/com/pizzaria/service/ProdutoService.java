@@ -42,8 +42,7 @@ public class ProdutoService {
 
 
         produtos.setPrecoProduto(total);
-
-
+        
         this.produtoRep.save(produtos);
     }
 

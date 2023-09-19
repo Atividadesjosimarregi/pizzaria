@@ -11,6 +11,10 @@ public class SaborDTO extends AbstractDTO{
 
     private String sabor;
 
+    public SaborDTO(){
 
-
+    }
+    public SaborDTO(String sabor) {
+        this.sabor = sabor;
+    }
 }

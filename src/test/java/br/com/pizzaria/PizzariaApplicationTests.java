@@ -45,6 +45,21 @@ class PizzariaApplicationTests {
 	@Autowired
 	LoginController loginController;
 
+	@MockBean
+	SaborRepository saborRepository;
+	@Autowired
+	SaborController saborController;
+
+	@MockBean
+	PizzaRepository pizzaRepository;
+	@Autowired
+	PizzaController pizzaController;
+
+	@MockBean
+	ProdutoRepository produtoRepository;
+	@Autowired
+	ProdutoController produtoController;
+
 	private List<Cliente> clienteList;
 
 	private List<Funcionario> funcionarioList;
@@ -54,6 +69,12 @@ class PizzariaApplicationTests {
 	private List<Estoque> estoqueList;
 
 	private List<Login> loginList;
+
+	private List<Sabor> saborList;
+
+	private List<Pizza> pizzaList;
+
+	private List<Produto> produtoList;
 
 	@BeforeEach
 	void injectData() {
@@ -87,6 +108,23 @@ class PizzariaApplicationTests {
 		loginList.add(login);
 		loginList.add(login2);
 
+		Sabor sabor = new Sabor(1L,"Queijo");
+		Sabor sabor2 = new Sabor(2L,"Frango");
+		saborList = new ArrayList<>();
+		saborList.add(sabor);
+		saborList.add(sabor2);
+
+		Pizza pizza = new Pizza(1L,saborList, 30, 1, Tamanho.P);
+		Pizza pizza2 = new Pizza(2L,saborList,60,2,Tamanho.M);
+		pizzaList = new ArrayList<>();
+		pizzaList.add(pizza);
+		pizzaList.add(pizza2);
+
+		Produto produto = new Produto(1L,1,estoque,20);
+		Produto produto2 = new Produto(2L,1,estoque2,30);
+		produtoList = new ArrayList<>();
+		produtoList.add(produto);
+		produtoList.add(produto2);
 
 		Mockito.when(clienteRepository.save(cliente)).thenReturn(cliente);
 		Mockito.when(clienteRepository.save(cliente2)).thenReturn(cliente2);
@@ -117,6 +155,25 @@ class PizzariaApplicationTests {
 		Mockito.when(loginRepository.findById(1L)).thenReturn(Optional.of(login));
 		Mockito.when(loginRepository.findById(2L)).thenReturn(Optional.of(login2));
 		Mockito.when(loginRepository.findAll()).thenReturn(loginList);
+
+		Mockito.when(saborRepository.save(sabor)).thenReturn(sabor);
+		Mockito.when(saborRepository.save(sabor2)).thenReturn(sabor2);
+		Mockito.when(saborRepository.findById(1L)).thenReturn(Optional.of(sabor));
+		Mockito.when(saborRepository.findById(2L)).thenReturn(Optional.of(sabor2));
+		Mockito.when(saborRepository.findAll()).thenReturn(saborList);
+
+		Mockito.when(pizzaRepository.save(pizza)).thenReturn(pizza2);
+		Mockito.when(pizzaRepository.save(pizza2)).thenReturn(pizza2);
+		Mockito.when(pizzaRepository.findById(1L)).thenReturn(Optional.of(pizza));
+		Mockito.when(pizzaRepository.findById(2L)).thenReturn(Optional.of(pizza2));
+		Mockito.when(pizzaRepository.findAll()).thenReturn(pizzaList);
+
+		Mockito.when(produtoRepository.save(produto)).thenReturn(produto);
+		Mockito.when(produtoRepository.save(produto2)).thenReturn(produto2);
+		Mockito.when(produtoRepository.findById(1L)).thenReturn(Optional.of(produto));
+		Mockito.when(produtoRepository.findById(2L)).thenReturn(Optional.of(produto2));
+		Mockito.when(produtoRepository.findAll()).thenReturn(produtoList);
+
 
 
 	}
@@ -334,6 +391,135 @@ class PizzariaApplicationTests {
 		Assert.assertNotNull(loginListController);
 		for(int i = 0; i < loginList.size();i ++){
 			Assert.assertEquals(loginList.get(i), loginListController.get(i));
+		}
+	}
+
+	@Test
+	void testSaborCriar() {
+		var sabor = saborController.cadastra(new SaborDTO("Bacon"));
+		Assert.assertEquals("Registro cadastrado com sucesso", sabor.getBody());
+	}
+
+
+	@Test
+	void testPutSabor(){
+		SaborDTO saborDTO = new SaborDTO("Bacon");
+		saborDTO.setId(1L);
+
+
+		var sabor = saborController.edita(1L, saborDTO);
+
+		Assert.assertEquals("Registro Cadastrado com Sucesso", sabor.getBody());
+	}
+
+	@Test
+	void testSaborDelete(){
+		var sabor = saborController.deleta(2L);
+		Assert.assertEquals("excluído", sabor.getBody());
+	}
+
+	@Test
+	void testFindByIdSabor(){
+		saborController.cadastra(new SaborDTO("4 queijos"));
+		var sabor = saborController.findById(1L);
+		Assert.assertEquals(sabor.getBody().getSabor(), saborController.findById(1L).getBody().getSabor());
+	}
+
+	@Test
+	void testFindAllSabor(){
+		ResponseEntity<List<Sabor>> saborFuncaoController = saborController.List();
+		List<Sabor> saborListController = saborFuncaoController.getBody();
+
+		Assert.assertNotNull(saborListController);
+		for(int i = 0; i < saborList.size();i ++){
+			Assert.assertEquals(saborList.get(i), saborListController.get(i));
+		}
+	}
+
+
+	@Test
+	void testPizzaCriar() {
+
+		var pizza = pizzaController.cadastra(new PizzaDTO(saborList,30,2,Tamanho.M));
+		Assert.assertEquals("Registro cadastrado com sucesso", pizza.getBody());
+	}
+
+	@Test
+	void testPutPizza(){
+		PizzaDTO pizzaDTO = new PizzaDTO(saborList,20,1,Tamanho.GG);
+		pizzaDTO.setId(1L);
+
+
+		var pizza = pizzaController.edita(1L, pizzaDTO);
+
+		Assert.assertEquals("Registro Cadastrado com Sucesso", pizza.getBody());
+	}
+
+	@Test
+	void testPizzaDelete(){
+		var pizza = pizzaController.deleta(2L);
+		Assert.assertEquals("excluído", pizza.getBody());
+	}
+
+	@Test
+	void testFindByIdPizza(){
+		pizzaController.cadastra(new PizzaDTO(saborList,20,1,Tamanho.P));
+		var pizza = pizzaController.findById(1L);
+		Assert.assertEquals(pizza.getBody().getSabores(), pizzaController.findById(1L).getBody().getSabores());
+	}
+
+	@Test
+	void testFindAllPizza(){
+		ResponseEntity<List<Pizza>> pizzaFuncaoController = pizzaController.List();
+		List<Pizza> pizzaListController = pizzaFuncaoController.getBody();
+
+		Assert.assertNotNull(pizzaListController);
+		for(int i = 0; i < pizzaList.size();i ++){
+			Assert.assertEquals(pizzaList.get(i), pizzaListController.get(i));
+		}
+	}
+
+
+	@Test
+	void testProdutoCriar() {
+		Estoque estoqueTest = new Estoque(3L,30,"Trio Pequeno");
+		var produto = produtoController.cadastra(new ProdutoDTO(3,estoqueTest,20));
+		Assert.assertEquals("Registro cadastrado com sucesso", produto.getBody());
+	}
+
+	@Test
+	void testPutProduto(){
+		Estoque estoque = new Estoque(4L,30,"Trio Pequeno");
+		ProdutoDTO produtoDTO = new ProdutoDTO(1,estoque,20);
+		produtoDTO.setId(1L);
+
+		var produto = produtoController.edita(1L, produtoDTO);
+
+		Assert.assertEquals("Registro Cadastrado com Sucesso", produto.getBody());
+	}
+
+	@Test
+	void testProdutoDelete(){
+		var produto = produtoController.deleta(2L);
+		Assert.assertEquals("excluído", produto.getBody());
+	}
+
+	@Test
+	void testFindByIdProduto(){
+		Estoque estoque = new Estoque(4L,30,"Trio Pequeno");
+		produtoController.cadastra(new ProdutoDTO(1,estoque,20));
+		var produto = produtoController.findById(1L);
+		Assert.assertEquals(produto.getBody().getEstoques(), produtoController.findById(1L).getBody().getEstoques());
+	}
+
+	@Test
+	void testFindAllProduto(){
+		ResponseEntity<List<Produto>> produtoFuncaoCotroller = produtoController.List();
+		List<Produto> produtoListController = produtoFuncaoCotroller.getBody();
+
+		Assert.assertNotNull(produtoListController);
+		for(int i = 0; i < produtoList.size();i ++){
+			Assert.assertEquals(produtoList.get(i), produtoListController.get(i));
 		}
 	}
 

@@ -44,5 +44,14 @@ public class Pizza extends abstractEntity{
     private Tamanho tamanho;
 
 
+    public Pizza(){
 
+    }
+    public Pizza(Long id,List<Sabor> sabores, float preco, int quantidade, Tamanho tamanho) {
+        this.id = id;
+        this.sabores = sabores;
+        this.preco = preco;
+        this.quantidade = quantidade;
+        this.tamanho = tamanho;
+    }
 }

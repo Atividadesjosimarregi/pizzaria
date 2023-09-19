@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/pizza")
 public class PizzaController {
@@ -23,12 +25,12 @@ public class PizzaController {
     private PizzaService pizzaServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Pizza> findById(@PathVariable("id") final Long id) {
         final Pizza pizza = this.pizzaRep.findById(id).orElse(null);
         return ResponseEntity.ok(pizza);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Pizza>> List(){
         return ResponseEntity.ok(this.pizzaRep.findAll());
 
     }
@@ -70,7 +72,7 @@ public class PizzaController {
         try {
 
             this.pizzaServ.excluirPizza(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
