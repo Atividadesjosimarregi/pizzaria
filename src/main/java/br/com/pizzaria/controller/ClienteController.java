@@ -20,7 +20,7 @@ public class ClienteController {
     private ClienteService clienteServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Cliente> findById(@PathVariable("id") final Long id) {
         final Cliente cliente = this.clienteRep.findById(id).orElse(null);
         return ResponseEntity.ok(cliente);
     }
@@ -54,11 +54,17 @@ public class ClienteController {
         try {
             final Cliente cliente1 = this.clienteRep.findById(id).orElse(null);
 
-            if (cliente1 == null || cliente1.getId() != (cliente.getId())){
+            if (cliente1 == null || !cliente1.getId().equals(cliente.getId())){
                 return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
-            this.clienteServ.atualizaCliente(cliente);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+
+
+            cliente1.setNome(cliente.getNome());
+
+
+            this.clienteRep.save(cliente1);
+
+            return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError()
@@ -68,6 +74,7 @@ public class ClienteController {
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleta(@PathVariable Long id) {

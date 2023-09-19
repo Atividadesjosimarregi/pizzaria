@@ -17,4 +17,13 @@ public class Cliente extends abstractEntity{
     @Getter @Setter
     @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
     private List<Endereco> enderecos;
+
+    public Cliente() {
+    }
+
+    public Cliente(Long id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
+
 }

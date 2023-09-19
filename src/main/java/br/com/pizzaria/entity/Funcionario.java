@@ -13,4 +13,14 @@ public class Funcionario extends abstractEntity{
     @Getter @Setter
     @Column(name = "nome",nullable = false,length = 80)
     private String nome;
+
+
+    public Funcionario() {
+    }
+
+    public Funcionario(Long id,String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
+
 }

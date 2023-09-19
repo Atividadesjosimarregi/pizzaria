@@ -12,7 +12,7 @@ public class abstractEntity {
     @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name ="id",nullable = false,unique = true)
-    private long id;
+    protected Long id;
 
 
 

@@ -14,4 +14,10 @@ public class ClienteDTO extends AbstractDTO{
     private List<Endereco> enderecos;
 
 
+    public ClienteDTO() {
+
+    }
+    public ClienteDTO(String nome) {
+        this.nome = nome;
+    }
 }

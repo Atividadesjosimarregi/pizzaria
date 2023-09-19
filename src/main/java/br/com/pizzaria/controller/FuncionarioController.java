@@ -23,7 +23,7 @@ public class FuncionarioController {
     private FuncionarioService funcionarioServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Funcionario> findById(@PathVariable("id") final Long id) {
         final Funcionario funcionario = this.funcionarioRep.findById(id).orElse(null);
         return ResponseEntity.ok(funcionario);
     }
@@ -70,7 +70,7 @@ public class FuncionarioController {
         try {
 
             this.funcionarioServ.excluirFuncionario(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
