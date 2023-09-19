@@ -1,13 +1,9 @@
 package br.com.pizzaria;
 
-import br.com.pizzaria.controller.ClienteController;
-import br.com.pizzaria.controller.FuncionarioController;
-import br.com.pizzaria.dto.ClienteDTO;
-import br.com.pizzaria.dto.FuncionarioDTO;
-import br.com.pizzaria.entity.Cliente;
-import br.com.pizzaria.entity.Funcionario;
-import br.com.pizzaria.repository.ClienteRepository;
-import br.com.pizzaria.repository.FuncionarioRepository;
+import br.com.pizzaria.controller.*;
+import br.com.pizzaria.dto.*;
+import br.com.pizzaria.entity.*;
+import br.com.pizzaria.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.junit.Assert;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -30,22 +30,95 @@ class PizzariaApplicationTests {
 	@Autowired
 	FuncionarioController funcionarioController;
 
+	@MockBean
+	EnderecoRepository enderecoRepository;
+	@Autowired
+	EnderecoController enderecoController;
+
+	@MockBean
+	EstoqueRepository estoqueRepository;
+	@Autowired
+	EstoqueController estoqueController;
+
+	@MockBean
+	LoginRepository loginRepository;
+	@Autowired
+	LoginController loginController;
+
+	private List<Cliente> clienteList;
+
+	private List<Funcionario> funcionarioList;
+
+	private List<Endereco> enderecoList;
+
+	private List<Estoque> estoqueList;
+
+	private List<Login> loginList;
+
 	@BeforeEach
 	void injectData() {
 		Cliente cliente = new Cliente(1L, "cliente");
 		Cliente cliente2 = new Cliente(2L, "cliente2");
+		clienteList = new ArrayList<>();
+		clienteList.add(cliente);
+		clienteList.add(cliente2);
+
 		Funcionario funcionario = new Funcionario(1L, "funcionario");
 		Funcionario funcionario2 = new Funcionario(2L, "funcionario2");
+		funcionarioList = new ArrayList<>();
+		funcionarioList.add(funcionario);
+		funcionarioList.add(funcionario2);
+
+		Endereco endereco = new Endereco(1L,"Rua alou","Vila C",303,"Casa","92452-2342",cliente);
+		Endereco endereco2 = new Endereco(2L,"Rua Salve","Vila B",231,"Casa","73254-6243",cliente2);
+		enderecoList = new ArrayList<>();
+		enderecoList.add(endereco);
+		enderecoList.add(endereco2);
+
+		Estoque estoque = new Estoque(1L,10,"Coca-cola");
+		Estoque estoque2 = new Estoque(2L,7,"Guaraná");
+		estoqueList = new ArrayList<>();
+		estoqueList.add(estoque);
+		estoqueList.add(estoque2);
+
+		Login login = new Login(1L,"admin","admin");
+		Login login2 = new Login(2L,"nimda","nimda");
+		loginList = new ArrayList<>();
+		loginList.add(login);
+		loginList.add(login2);
+
 
 		Mockito.when(clienteRepository.save(cliente)).thenReturn(cliente);
 		Mockito.when(clienteRepository.save(cliente2)).thenReturn(cliente2);
 		Mockito.when(clienteRepository.findById(1L)).thenReturn(Optional.of(cliente));
 		Mockito.when(clienteRepository.findById(2L)).thenReturn(Optional.of(cliente2));
+		Mockito.when(clienteRepository.findAll()).thenReturn(clienteList);
 
 		Mockito.when(funcionarioRepository.save(funcionario)).thenReturn(funcionario);
 		Mockito.when(funcionarioRepository.save(funcionario2)).thenReturn(funcionario2);
 		Mockito.when(funcionarioRepository.findById(1L)).thenReturn(Optional.of(funcionario));
 		Mockito.when(funcionarioRepository.findById(2L)).thenReturn(Optional.of(funcionario2));
+		Mockito.when(funcionarioRepository.findAll()).thenReturn(funcionarioList);
+
+		Mockito.when(enderecoRepository.save(endereco)).thenReturn(endereco);
+		Mockito.when(enderecoRepository.save(endereco2)).thenReturn(endereco2);
+		Mockito.when(enderecoRepository.findById(1L)).thenReturn(Optional.of(endereco));
+		Mockito.when(enderecoRepository.findById(2L)).thenReturn(Optional.of(endereco2));
+		Mockito.when(enderecoRepository.findAll()).thenReturn(enderecoList);
+
+		Mockito.when(estoqueRepository.save(estoque)).thenReturn(estoque);
+		Mockito.when(estoqueRepository.save(estoque2)).thenReturn(estoque2);
+		Mockito.when(estoqueRepository.findById(1L)).thenReturn(Optional.of(estoque));
+		Mockito.when(estoqueRepository.findById(2L)).thenReturn(Optional.of(estoque2));
+		Mockito.when(estoqueRepository.findAll()).thenReturn(estoqueList);
+
+		Mockito.when(loginRepository.save(login)).thenReturn(login);
+		Mockito.when(loginRepository.save(login2)).thenReturn(login2);
+		Mockito.when(loginRepository.findById(1L)).thenReturn(Optional.of(login));
+		Mockito.when(loginRepository.findById(2L)).thenReturn(Optional.of(login2));
+		Mockito.when(loginRepository.findAll()).thenReturn(loginList);
+
+
 	}
 
 	@Test
@@ -82,6 +155,17 @@ class PizzariaApplicationTests {
 	}
 
 	@Test
+	void testFindAllCliente(){
+		ResponseEntity<List<Cliente>> clienteFuncaoController = clienteController.List();
+		List<Cliente> clienteListController = clienteFuncaoController.getBody();
+
+		Assert.assertNotNull(clienteListController);
+		for(int i = 0; i < clienteList.size();i ++){
+			Assert.assertEquals(clienteList.get(i), clienteListController.get(i));
+		}
+	}
+
+	@Test
 	void testFuncionarioCriar() {
 		var funcionario = funcionarioController.cadastra(new FuncionarioDTO("Funcionario41"));
 		Assert.assertEquals("Registro cadastrado com sucesso", funcionario.getBody());
@@ -110,6 +194,150 @@ class PizzariaApplicationTests {
 		var funcionario = funcionarioController.findById(1L);
 		Assert.assertEquals(funcionario.getBody().getNome(), funcionarioController.findById(1L).getBody().getNome());
 	}
+
+	@Test
+	void testFindAllFuncinario(){
+		ResponseEntity<List<Funcionario>> funcionarioFuncaoController = funcionarioController.List();
+		List<Funcionario> funcionarioListController = funcionarioFuncaoController.getBody();
+
+		Assert.assertNotNull(funcionarioListController);
+		for(int i = 0; i < funcionarioList.size();i ++){
+			Assert.assertEquals(funcionarioList.get(i), funcionarioListController.get(i));
+		}
+
+	}
+
+	@Test
+	public void testEnderecoCriar(){
+		Cliente clienteTest = new Cliente(3L,"clienteTeste");
+		var endereco = enderecoController.cadastra(new EnderecoDTO("Rua ola","Vila D",123,"Casa","51232-2342",clienteTest));
+		Assert.assertEquals("Registro cadastrado com sucesso", endereco.getBody());
+
+	}
+
+	@Test
+	public void testEnderecoPut(){
+
+		Cliente clienteTest = new Cliente(4L,"clienteTeste2");
+		EnderecoDTO enderecoDTO = new EnderecoDTO("Rua Hello","Vila P",513,"Casa","62342-2341",clienteTest);
+		enderecoDTO.setId(1L);
+
+		var endereco = enderecoController.edita(1L, enderecoDTO);
+
+		Assert.assertEquals("Registro Cadastrado com Sucesso", endereco.getBody());
+
+	}
+
+	@Test
+	void testEnderecoDelete(){
+		var endereco = enderecoController.deleta(2L);
+		Assert.assertEquals("excluído", endereco.getBody());
+	}
+
+	@Test
+	void testFindByIdEndereco(){
+		Cliente clienteTest = new Cliente(5L,"clienteTeste3");
+		enderecoController.cadastra(new EnderecoDTO("Rua ola","Vila D",123,"Casa","51232-2342",clienteTest));
+		var endereco = enderecoController.findById(1L);
+		Assert.assertEquals(endereco.getBody().getRua(), enderecoController.findById(1L).getBody().getRua());
+	}
+
+	@Test
+	void testFindAllEndereco(){
+		ResponseEntity<List<Endereco>> enderecoFuncaoController = enderecoController.List();
+		List<Endereco> enderecoListController = enderecoFuncaoController.getBody();
+
+		Assert.assertNotNull(enderecoListController);
+		for(int i = 0; i < enderecoList.size();i ++){
+			Assert.assertEquals(enderecoList.get(i), enderecoListController.get(i));
+		}
+
+	}
+
+	@Test
+	void testCriarEstoque() {
+		var estoque = estoqueController.cadastra(new EstoqueDTO(23,"Monster"));
+		Assert.assertEquals("Registro cadastrado com sucesso", estoque.getBody());
+	}
+
+	@Test
+	void testPutEstoque(){
+		EstoqueDTO estoqueDTO = new EstoqueDTO(20,"Paçoca");
+		estoqueDTO.setId(1L);
+
+
+		var estoque = estoqueController.edita(1L, estoqueDTO);
+
+		Assert.assertEquals("Registro Cadastrado com Sucesso", estoque.getBody());
+	}
+
+	@Test
+	void testDeleteEstoque(){
+		var estoque = estoqueController.deleta(2L);
+		Assert.assertEquals("excluído", estoque.getBody());
+	}
+
+	@Test
+	void testFindByIdEstoque(){
+		estoqueController.cadastra(new EstoqueDTO(14,"Kuat"));
+		var estoque = estoqueController.findById(1L);
+		Assert.assertEquals(estoque.getBody().getNome(), estoqueController.findById(1L).getBody().getNome());
+	}
+
+	@Test
+	void testFindAllEstoque(){
+		ResponseEntity<List<Estoque>> estoqueFuncaoController = estoqueController.List();
+		List<Estoque> estoqueListController = estoqueFuncaoController.getBody();
+
+		Assert.assertNotNull(estoqueListController);
+		for(int i = 0; i < estoqueList.size();i ++){
+			Assert.assertEquals(estoqueList.get(i), estoqueListController.get(i));
+		}
+	}
+
+	@Test
+	void testLoginCriar() {
+		var login = loginController.cadastra(new LoginDTO("admin","admin"));
+		Assert.assertEquals("Registro cadastrado com sucesso", login.getBody());
+	}
+
+	@Test
+	void testPutLogin(){
+		LoginDTO loginDTO = new LoginDTO("admin","admin");
+		loginDTO.setId(1L);
+
+
+		var login = loginController.edita(1L, loginDTO);
+
+		Assert.assertEquals("Registro Cadastrado com Sucesso", login.getBody());
+	}
+
+	@Test
+	void testLoginDelete(){
+		var login = loginController.deleta(2L);
+		Assert.assertEquals("excluído", login.getBody());
+	}
+
+	@Test
+	void testFindByIdLogin(){
+		loginController.cadastra(new LoginDTO("adm","adm"));
+		var login = loginController.findById(1L);
+		Assert.assertEquals(login.getBody().getLogin(), loginController.findById(1L).getBody().getLogin());
+	}
+
+
+	@Test
+	void testFindAllLogin(){
+		ResponseEntity<List<Login>> loginFuncaoController = loginController.List();
+		List<Login> loginListController = loginFuncaoController.getBody();
+
+		Assert.assertNotNull(loginListController);
+		for(int i = 0; i < loginList.size();i ++){
+			Assert.assertEquals(loginList.get(i), loginListController.get(i));
+		}
+	}
+
+
 
 
 }

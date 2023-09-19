@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value ="/login")
 public class LoginController {
@@ -23,12 +25,12 @@ public class LoginController {
     private LoginService loginServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Login> findById(@PathVariable("id") final Long id) {
         final Login login = this.loginRep.findById(id).orElse(null);
         return ResponseEntity.ok(login);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Login>> List(){
         return ResponseEntity.ok(this.loginRep.findAll());
 
     }
@@ -70,7 +72,7 @@ public class LoginController {
         try {
 
             this.loginServ.excluirLogin(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

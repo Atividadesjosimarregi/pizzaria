@@ -1,16 +1,15 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.EstoqueDTO;
-import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Estoque;
-import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.repository.EstoqueRepository;
-import br.com.pizzaria.service.ClienteService;
 import br.com.pizzaria.service.EstoqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/estoque")
@@ -23,12 +22,12 @@ public class EstoqueController {
     private EstoqueService estoqueServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Estoque> findById(@PathVariable("id") final Long id) {
         final Estoque estoque = this.estoqueRep.findById(id).orElse(null);
         return ResponseEntity.ok(estoque);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Estoque>> List(){
         return ResponseEntity.ok(this.estoqueRep.findAll());
 
     }
@@ -69,7 +68,7 @@ public class EstoqueController {
         try {
 
             this.estoqueServ.excluirEstoque(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

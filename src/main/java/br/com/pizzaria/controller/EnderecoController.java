@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/endereco")
 public class EnderecoController {
@@ -23,12 +25,12 @@ public class EnderecoController {
     private EnderecoService enderecoServ;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id) {
+    public ResponseEntity<Endereco> findById(@PathVariable("id") final Long id) {
         final Endereco endereco = this.enderecoRep.findById(id).orElse(null);
         return ResponseEntity.ok(endereco);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Endereco>> List(){
         return ResponseEntity.ok(this.enderecoRep.findAll());
 
     }
@@ -69,7 +71,7 @@ public class EnderecoController {
         try {
 
             this.enderecoServ.excluirEndereco(id);
-            return ResponseEntity.ok("Desativado ou excluído");
+            return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

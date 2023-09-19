@@ -30,4 +30,15 @@ public class EnderecoDTO extends AbstractDTO {
 
     private Cliente cliente;
 
+    public EnderecoDTO(){
+
+    }
+    public EnderecoDTO(String rua, String bairro, int numero, String observacao, String cep,Cliente cliente) {
+        this.rua = rua;
+        this.bairro = bairro;
+        this.numero = numero;
+        this.observacao = observacao;
+        this.cep = cep;
+        this.cliente = cliente;
+    }
 }

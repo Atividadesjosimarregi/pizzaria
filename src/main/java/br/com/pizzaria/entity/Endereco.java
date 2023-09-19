@@ -33,6 +33,17 @@ public class Endereco extends abstractEntity{
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    public Endereco(){
 
+    }
 
+    public Endereco(Long id,String rua, String bairro, int numero, String observacao, String cep,Cliente cliente) {
+        this.id = id;
+        this.rua = rua;
+        this.bairro = bairro;
+        this.numero = numero;
+        this.observacao = observacao;
+        this.cep = cep;
+        this.cliente = cliente;
+    }
 }

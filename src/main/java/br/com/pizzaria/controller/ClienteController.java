@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/cliente")
 public class ClienteController {
@@ -25,7 +27,7 @@ public class ClienteController {
         return ResponseEntity.ok(cliente);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Cliente>> List(){
         return ResponseEntity.ok(this.clienteRep.findAll());
 
     }

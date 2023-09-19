@@ -12,6 +12,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/funcionario")
 public class FuncionarioController {
@@ -28,7 +30,7 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionario);
     }
     @GetMapping("/lista")
-    public ResponseEntity<?> List(){
+    public ResponseEntity<List<Funcionario>> List(){
         return ResponseEntity.ok(this.funcionarioRep.findAll());
 
     }

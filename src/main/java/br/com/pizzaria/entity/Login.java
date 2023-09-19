@@ -19,4 +19,12 @@ public class Login extends abstractEntity{
     @Column(name = "senha",nullable = false,length = 40)
     private String senha;
 
+    public Login(){
+
+    }
+    public Login(Long id,String login, String senha) {
+        this.id = id;
+        this.login = login;
+        this.senha = senha;
+    }
 }
