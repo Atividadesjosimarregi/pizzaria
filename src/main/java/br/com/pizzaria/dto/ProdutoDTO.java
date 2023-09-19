@@ -17,5 +17,8 @@ public class ProdutoDTO extends AbstractDTO{
     private int quantidade;
 
 
-    private List<Estoque> estoques;
+    private Estoque estoques;
+
+
+    private float precoProduto;
 }

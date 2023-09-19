@@ -1,0 +1,7 @@
+Detalhes do Pedido:
+ID do Pedido: 0
+Pizza 1:
+
+Pizza 2:
+
+

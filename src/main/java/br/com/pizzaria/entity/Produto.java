@@ -17,21 +17,12 @@ public class Produto extends abstractEntity{
     private int quantidade;
 
     @Getter @Setter
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "produto_estoque",
-            uniqueConstraints = @UniqueConstraint(
-                    columnNames = {
-                            "produto_id",
-                            "estoque_id"
-                    }
-            ),
-            joinColumns = @JoinColumn(
-                    name = "produto_id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "estoque_id"
-            )
-    )
-    private List<Estoque> estoques;
+    @Column(name = "precoProduto",nullable = false)
+    private float precoProduto;
+
+    @Getter @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "estoque_id")
+    private Estoque estoques;
 
 }

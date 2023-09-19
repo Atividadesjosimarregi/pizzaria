@@ -24,7 +24,7 @@ public class Pedido extends abstractEntity{
 
     @Getter @Setter
     @Column(name = "preco")
-    private BigDecimal preco;
+    private float preco;
 
     @Enumerated(EnumType.STRING)
     @Getter @Setter
@@ -38,7 +38,7 @@ public class Pedido extends abstractEntity{
 
     @Getter @Setter
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produtos")
+    @JoinColumn(name = "produtos_idd")
     private List<Produto> produtos;
 
     @Getter @Setter

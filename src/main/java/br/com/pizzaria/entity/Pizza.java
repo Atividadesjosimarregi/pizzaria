@@ -31,7 +31,7 @@ public class Pizza extends abstractEntity{
 
     @Getter @Setter
     @Column(name = "preco")
-    private BigDecimal preco;
+    private float preco;
 
 
     @Getter @Setter

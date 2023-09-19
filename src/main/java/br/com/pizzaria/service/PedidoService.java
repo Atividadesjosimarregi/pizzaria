@@ -2,13 +2,11 @@ package br.com.pizzaria.service;
 
 import br.com.pizzaria.dto.EnderecoDTO;
 import br.com.pizzaria.dto.PedidoDTO;
-import br.com.pizzaria.entity.Endereco;
-import br.com.pizzaria.entity.Pedido;
-import br.com.pizzaria.entity.Pizza;
-import br.com.pizzaria.entity.Sabor;
+import br.com.pizzaria.entity.*;
 import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.PedidoRepository;
 import br.com.pizzaria.repository.PizzaRepository;
+import br.com.pizzaria.repository.ProdutoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -29,14 +28,18 @@ public class PedidoService {
     @Autowired
     private PizzaRepository pizzaRep;
 
+    @Autowired
+    private ProdutoRepository produtoRep;
+
 
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrarPedido(final PedidoDTO pedido){
 
-        Pizza pizza = this.pizzaRep.findById(1L).orElse(null);
 
-        BigDecimal total = BigDecimal.valueOf(0);
+
+        float totalPizzas = 0;
+        float totalProdutos = 0;
         var pedidos = new Pedido();
         BeanUtils.copyProperties(pedido,pedidos);
 
@@ -45,19 +48,23 @@ public class PedidoService {
         Assert.isTrue(pedidos.getFuncionario() != null, "Funcionário não pode ser nulo");
         Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
 
-
-        pedido.setPreco(pedido.getPizzas().get(0).getPreco());
-
-
-        /*if(pedido.getPizzas().size() >= 1){
-            for(int i=0;i<pedidos.getPizzas().size(); i++) {
-                total += pedidos.getPizzas().get(i).getPreco();
-                System.out.println(total);
+        if(pedidos.getProdutos().size() >= 1){
+            for(Produto produto : pedidos.getProdutos()) {
+                Optional<Produto> produtoTempo = produtoRep.findById(produto.getId());
+                totalProdutos += produtoTempo.get().getPrecoProduto();
+                System.out.println(totalProdutos);
             }
-        }*/
+        }
 
-        //BigDecimal ValorPizzas = pedidos.getPizzas().stream().map(Pizza::getPreco).reduce(BigDecimal.ZERO, BigDecimal::add);
-        //pedidos.setPreco(ValorPizzas);
+
+        if(pedidos.getPizzas().size() >= 1){
+            for(Pizza pizza : pedidos.getPizzas()) {
+                Optional<Pizza> pizzaTempo = pizzaRep.findById(pizza.getId());
+                totalPizzas += pizzaTempo.get().getPreco();
+                System.out.println(totalPizzas);
+            }
+        }
+        pedidos.setPreco(totalPizzas+totalProdutos);
 
         gerarArquivoPedido(pedidos);
         this.pedidoRep.save(pedidos);
@@ -78,11 +85,9 @@ public class PedidoService {
         Assert.isTrue(pedidoExistente.getFuncionario() != null, "Funcionário não pode ser nulo");
         Assert.isTrue(pedidoExistente.getStatus() != null,"Status não pode ser nulo");
 
-        BigDecimal ValorPizzas = pedidoExistente.getPizzas().stream().map(Pizza::getPreco).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        pedidoExistente.setPreco(ValorPizzas);
 
-        System.out.println(ValorPizzas);
+
 
 
         this.pedidoRep.save(pedidoExistente);
