@@ -30,7 +30,7 @@ public class PizzaDtoTests {
     @Test
     void getsetNomes3(){
         pizza.setTamanho(Tamanho.M);
-        Assertions.assertEquals(Tamanho.P,pizza.getTamanho());
+        Assertions.assertEquals(Tamanho.M,pizza.getTamanho());
     }
 
     @Test
