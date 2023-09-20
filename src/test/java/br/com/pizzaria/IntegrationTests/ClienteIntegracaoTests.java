@@ -64,6 +64,12 @@ class ClienteIntegracaoTests {
     }
 
     @Test
+    void testClienteCriarErrado() {
+        var cliente = clienteController.cadastra(new ClienteDTO());
+        Assert.assertEquals("Error: Nome não pode ser nulo", cliente.getBody());
+    }
+
+    @Test
     void testPutCliente(){
         ClienteDTO clienteDTO = new ClienteDTO("João");
         clienteDTO.setId(1L);
@@ -74,12 +80,28 @@ class ClienteIntegracaoTests {
         Assert.assertEquals("Registro cadastrado com sucesso", cliente.getBody());
     }
 
+    @Test
+    void testPutClienteErrado(){
+        ClienteDTO clienteDTO = new ClienteDTO("João");
+
+
+        var cliente = clienteController.edita(1L, clienteDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", cliente.getBody());
+    }
+
 
 
     @Test
     void testDeleteCliente(){
         var cliente = clienteController.deleta(2L);
         Assert.assertEquals("excluído", cliente.getBody());
+    }
+
+    @Test
+    void testDeleteClienteErrado(){
+        var cliente = clienteController.deleta(10L);
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", cliente.getBody());
     }
 
 

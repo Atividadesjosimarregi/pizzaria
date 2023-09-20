@@ -23,8 +23,8 @@ public class EstoqueService {
         var estoques = new Estoque();
         BeanUtils.copyProperties(estoque,estoques);
 
-        Assert.isTrue(estoques.getNome().length() <=150,"Nome pode ter até 150 caracteres");
         Assert.isTrue(estoques.getNome() != null,"Nome não pode ser nulo");
+        Assert.isTrue(estoques.getNome().length() <=150,"Nome pode ter até 150 caracteres");
         Estoque existente = estoqueRep.findByNome(estoques.getNome());
         Assert.isTrue( existente == null || existente.equals(estoques.getNome()),"Nome já existente");
 
@@ -47,9 +47,8 @@ public class EstoqueService {
 
             BeanUtils.copyProperties(estoqueDTO, estoqueExistente);
 
-            Assert.isTrue(estoqueExistente.getNome().length() <=150,"Nome pode ter até 150 caracteres");
             Assert.isTrue(estoqueExistente.getNome() != null,"Nome não pode ser nulo");
-
+            Assert.isTrue(estoqueExistente.getNome().length() <=150,"Nome pode ter até 150 caracteres");
 
             Assert.isTrue(estoqueExistente.getPreco() != 0, "Preço não pode ser nulo");
 

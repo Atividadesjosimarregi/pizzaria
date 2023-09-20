@@ -54,6 +54,12 @@ class SaborIntegracaoTests {
         var sabor = saborController.cadastra(new SaborDTO("Bacon"));
         Assert.assertEquals("Registro cadastrado com sucesso", sabor.getBody());
     }
+    @Test
+    void testSaborCriarErrado() {
+        var sabor = saborController.cadastra(new SaborDTO());
+        Assert.assertEquals("Error: Nome do sabor não pode ser nulo", sabor.getBody());
+    }
+
 
 
     @Test
@@ -68,10 +74,28 @@ class SaborIntegracaoTests {
     }
 
     @Test
+    void testPutSaborErrado(){
+        SaborDTO saborDTO = new SaborDTO("Bacon");
+        saborDTO.setId(1L);
+
+
+        var sabor = saborController.edita(10L, saborDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", sabor.getBody());
+    }
+
+    @Test
     void testSaborDelete(){
         var sabor = saborController.deleta(2L);
         Assert.assertEquals("excluído", sabor.getBody());
     }
+
+    @Test
+    void testSaborDeleteErrado(){
+        var sabor = saborController.deleta(20L);
+        Assert.assertEquals("ERRor: Não foi possivel identificar o registro informado", sabor.getBody());
+    }
+
 
     @Test
     void testFindByIdSabor(){

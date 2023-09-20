@@ -13,13 +13,13 @@ import org.junit.jupiter.api.Test;
     ProdutoDTO produto2 = new ProdutoDTO();
 
     @Test
-    void getsetNome(){
+    void getset1Quantidade(){
         produto.setQuantidade(1);
         Assertions.assertEquals(1, produto.getQuantidade());
     }
 
     @Test
-    void getsetPreco(){
+    void getset2Preco(){
         produto.setPrecoProduto(25);
         Assertions.assertEquals(25, produto.getPrecoProduto());
     }

@@ -213,6 +213,15 @@ class PedidoIntegracaoTests {
     }
 
     @Test
+    void testPedidoCriarErrado() {
+        Cliente clienteTest = new Cliente(1L,"pedro");
+        Funcionario funcionarioT = new Funcionario(1L,"salve");
+
+        var pedido = pedidoController.cadastra(new PedidoDTO());
+        Assert.assertEquals("Error: Cliente não pode ser nulo", pedido.getBody());
+    }
+
+    @Test
     void testPutPedido(){
 
         Cliente clienteTest = new Cliente(1L,"pedro");
@@ -225,11 +234,30 @@ class PedidoIntegracaoTests {
 
         Assert.assertEquals("Registro Cadastrado com Sucesso", pedido.getBody());
     }
+    @Test
+    void testPutPedidoErrado(){
+
+        Cliente clienteTest = new Cliente(1L,"pedro");
+        Funcionario funcionarioT = new Funcionario(1L,"salve");
+        PedidoDTO pedidoDTO = new PedidoDTO("nada",clienteTest,20,Status.ANDAMENTO,pizzaList,produtoList,true,
+                false,false,false,LocalDateTime.now(),funcionarioT);
+        pedidoDTO.setId(1L);
+
+        var pedido = pedidoController.edita(10L, pedidoDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", pedido.getBody());
+    }
 
     @Test
     void testPedidoDelete(){
         var pedido = pedidoController.deleta(2L);
         Assert.assertEquals("excluído", pedido.getBody());
+    }
+
+    @Test
+    void testPedidoDeleteErrado(){
+        var pedido = pedidoController.deleta(20L);
+        Assert.assertEquals("ERRor: Não foi possivel identificar o registro informado", pedido.getBody());
     }
 
     @Test

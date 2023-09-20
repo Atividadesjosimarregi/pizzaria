@@ -80,6 +80,14 @@ class ProdutoIntegracaoTests {
     }
 
     @Test
+    void testProdutoCriarErrado() {
+        Estoque estoqueTest = new Estoque(2L,30,"Trio Pequeno");
+        var produto = produtoController.cadastra(new ProdutoDTO());
+        Assert.assertEquals("ErrorLá: A quantidade não pode ser nulo", produto.getBody());
+    }
+
+
+    @Test
     void testPutProduto(){
         Estoque estoque = new Estoque(4L,30,"Trio Pequeno");
         ProdutoDTO produtoDTO = new ProdutoDTO(1,estoque,20);
@@ -89,11 +97,26 @@ class ProdutoIntegracaoTests {
 
         Assert.assertEquals("Registro Cadastrado com Sucesso", produto.getBody());
     }
+    @Test
+    void testPutProdutoErrado(){
+        Estoque estoque = new Estoque(4L,30,"Trio Pequeno");
+        ProdutoDTO produtoDTO = new ProdutoDTO(1,estoque,20);
+        produtoDTO.setId(1L);
+
+        var produto = produtoController.edita(10L, produtoDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", produto.getBody());
+    }
 
     @Test
     void testProdutoDelete(){
         var produto = produtoController.deleta(2L);
         Assert.assertEquals("excluído", produto.getBody());
+    }
+    @Test
+    void testProdutoDeleteErrado(){
+        var produto = produtoController.deleta(20L);
+        Assert.assertEquals("ERRor: Não foi possivel identificar o registro informado", produto.getBody());
     }
 
     @Test

@@ -66,7 +66,7 @@ class EnderecoIntegracaoTests {
     }
 
     @Test
-    public void testEnderecoCriar(){
+     void testEnderecoCriar(){
         Cliente clienteTest = new Cliente(3L,"clienteTeste");
         var endereco = enderecoController.cadastra(new EnderecoDTO("Rua ola","Vila D",123,"Casa","51232-2342",clienteTest));
         Assert.assertEquals("Registro cadastrado com sucesso", endereco.getBody());
@@ -74,7 +74,15 @@ class EnderecoIntegracaoTests {
     }
 
     @Test
-    public void testEnderecoPut(){
+     void testEnderecoCriarErrado(){
+        Cliente clienteTest = new Cliente(3L,"clienteTeste");
+        var endereco = enderecoController.cadastra(new EnderecoDTO());
+        Assert.assertEquals("ERror: Endereço não pode ser nulo", endereco.getBody());
+
+    }
+
+    @Test
+     void testEnderecoPut(){
 
         Cliente clienteTest = new Cliente(4L,"clienteTeste2");
         EnderecoDTO enderecoDTO = new EnderecoDTO("Rua Hello","Vila P",513,"Casa","62342-2341",clienteTest);
@@ -85,11 +93,28 @@ class EnderecoIntegracaoTests {
         Assert.assertEquals("Registro Cadastrado com Sucesso", endereco.getBody());
 
     }
+    @Test
+     void testEnderecoPutErrado(){
+
+        Cliente clienteTest = new Cliente(4L,"clienteTeste2");
+        EnderecoDTO enderecoDTO = new EnderecoDTO("Rua Hello","Vila P",513,"Casa","62342-2341",clienteTest);
+        enderecoDTO.setId(1L);
+
+        var endereco = enderecoController.edita(10L, enderecoDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", endereco.getBody());
+
+    }
 
     @Test
     void testEnderecoDelete(){
         var endereco = enderecoController.deleta(2L);
         Assert.assertEquals("excluído", endereco.getBody());
+    }
+    @Test
+    void testEnderecoDeleteErrado(){
+        var endereco = enderecoController.deleta(10L);
+        Assert.assertEquals("ERRor: Não foi possivel encontrar o registro informado", endereco.getBody());
     }
 
     @Test

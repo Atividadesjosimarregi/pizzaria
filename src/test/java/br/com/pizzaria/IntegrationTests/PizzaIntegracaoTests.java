@@ -79,6 +79,12 @@ class PizzaIntegracaoTests {
         var pizza = pizzaController.cadastra(new PizzaDTO(saborList,30,2,Tamanho.M));
         Assert.assertEquals("Registro cadastrado com sucesso", pizza.getBody());
     }
+    @Test
+    void testPizzaCriarErrado() {
+
+        var pizza = pizzaController.cadastra(new PizzaDTO());
+        Assert.assertEquals("Error: A pizza deve conter pelo menos 1 sabor", pizza.getBody());
+    }
 
     @Test
     void testPutPizza(){
@@ -90,11 +96,26 @@ class PizzaIntegracaoTests {
 
         Assert.assertEquals("Registro Cadastrado com Sucesso", pizza.getBody());
     }
+    @Test
+    void testPutPizzaErrado(){
+        PizzaDTO pizzaDTO = new PizzaDTO(saborList,20,1,Tamanho.GG);
+        pizzaDTO.setId(1L);
+
+
+        var pizza = pizzaController.edita(10L, pizzaDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", pizza.getBody());
+    }
 
     @Test
     void testPizzaDelete(){
         var pizza = pizzaController.deleta(2L);
         Assert.assertEquals("excluído", pizza.getBody());
+    }
+    @Test
+    void testPizzaDeleteErrado(){
+        var pizza = pizzaController.deleta(20L);
+        Assert.assertEquals("ERRor: Não foi possivel identificar o registro informado", pizza.getBody());
     }
 
     @Test

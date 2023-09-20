@@ -22,8 +22,8 @@ public class LoginService {
         var logins = new Login();
         BeanUtils.copyProperties(login,logins);
 
-        Assert.isTrue(logins.getLoginn().length() <=40 ,"Login só pode ter até 40 caracteres");
         Assert.isTrue(logins.getLoginn() != null,"Login não pode ser nulo");
+        Assert.isTrue(logins.getLoginn().length() <=40 ,"Login só pode ter até 40 caracteres");
         Login existente = loginRep.findByLoginn(logins.getLoginn());
         Assert.isTrue( existente == null || existente.equals(logins.getLoginn()),"Login já existente");
 
@@ -42,8 +42,8 @@ public class LoginService {
 
             BeanUtils.copyProperties(loginDTO, loginExistente);
 
-            Assert.isTrue(loginExistente.getLoginn().length() <=40 ,"Login só pode ter até 40 caracteres");
             Assert.isTrue(loginExistente.getLoginn() != null,"Login não pode ser nulo");
+            Assert.isTrue(loginExistente.getLoginn().length() <=40 ,"Login só pode ter até 40 caracteres");
 
 
             this.loginRep.save(loginExistente);

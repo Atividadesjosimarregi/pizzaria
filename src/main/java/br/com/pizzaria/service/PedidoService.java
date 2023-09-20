@@ -91,7 +91,7 @@ public class PedidoService {
         final Pedido pedidoBanco = this.pedidoRep.findById(id).orElse(null);
 
         if (pedidoBanco == null || pedidoBanco.getId()!=(id)){
-            Assert.isTrue(2 == 3 , "Não foi impossivel identificar o registro informado");
+            Assert.isTrue(2 == 3 , "Não foi possivel identificar o registro informado");
         }
         this.pedidoRep.delete(pedidoBanco);
     }
@@ -124,7 +124,7 @@ public class PedidoService {
 
             writer.write("\n");
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 

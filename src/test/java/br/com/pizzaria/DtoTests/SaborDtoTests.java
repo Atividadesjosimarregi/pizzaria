@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
     @Test
-    void getsetNome(){
+    void getset1Sabor(){
         sabor.setSaborr("Queijo");
         Assertions.assertEquals("Queijo",sabor.getSaborr());
     }

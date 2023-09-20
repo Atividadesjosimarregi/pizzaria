@@ -22,11 +22,8 @@ public class FuncionarioService {
         var funcionarios = new Funcionario();
         BeanUtils.copyProperties(funcionario,funcionarios);
 
-        Assert.isTrue(funcionarios.getNome().length() <= 80,"Funcionario só pode ter até 80 caracters");
         Assert.isTrue(funcionarios.getNome() != null,"Nome não pode ser nulo");
-
-
-
+        Assert.isTrue(funcionarios.getNome().length() <= 80,"Funcionario só pode ter até 80 caracters");
 
         this.funcionarioRep.save(funcionarios);
     }
@@ -41,9 +38,8 @@ public class FuncionarioService {
 
             BeanUtils.copyProperties(funcionarioDTO, funcionarioExistente);
 
-
-            Assert.isTrue(funcionarioExistente.getNome().length() <= 80,"Funcionario só pode ter até 80 caracters");
             Assert.isTrue(funcionarioExistente.getNome() != null,"Nome não pode ser nulo");
+            Assert.isTrue(funcionarioExistente.getNome().length() <= 80,"Funcionario só pode ter até 80 caracters");
 
 
             this.funcionarioRep.save(funcionarioExistente);

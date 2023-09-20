@@ -18,18 +18,18 @@ import java.util.List;
     PizzaDTO pizza2 = new PizzaDTO();
 
     @Test
-    void getsetNome(){
+    void getset1Quantidade(){
         pizza.setQuantidade(3);
         Assertions.assertEquals(3,pizza.getQuantidade());
     }
 
     @Test
-    void getsetNomes2(){
+    void getset2Preco(){
         pizza.setPreco(20);
         Assertions.assertEquals(20,pizza.getPreco());
     }
     @Test
-    void getsetNomes3(){
+    void getset3Tamanho(){
         pizza.setTamanho(Tamanho.M);
         Assertions.assertEquals(Tamanho.M,pizza.getTamanho());
     }

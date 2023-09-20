@@ -58,6 +58,11 @@ class FuncionarioIntegracaoTests {
         var funcionario = funcionarioController.cadastra(new FuncionarioDTO("Funcionario41"));
         Assert.assertEquals("Registro cadastrado com sucesso", funcionario.getBody());
     }
+    @Test
+    void testFuncionarioCriarErrado() {
+        var funcionario = funcionarioController.cadastra(new FuncionarioDTO());
+        Assert.assertEquals("Error: Nome não pode ser nulo", funcionario.getBody());
+    }
 
     @Test
     void testPutFuncionario(){
@@ -69,6 +74,16 @@ class FuncionarioIntegracaoTests {
 
         Assert.assertEquals("Registro Cadastrado com Sucesso", funcionario.getBody());
     }
+    @Test
+    void testPutFuncionarioErrado(){
+
+        FuncionarioDTO funcionarioDTO = new FuncionarioDTO("Funcionario43");
+        funcionarioDTO.setId(1L);
+
+        var funcionario = funcionarioController.edita(10L, funcionarioDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", funcionario.getBody());
+    }
 
     @Test
     void testDeleteFuncionario(){
@@ -76,6 +91,11 @@ class FuncionarioIntegracaoTests {
         Assert.assertEquals("excluído", funcionario.getBody());
     }
 
+    @Test
+    void testDeleteFuncionarioErrado(){
+        var funcionario = funcionarioController.deleta(10L);
+        Assert.assertEquals("ERRor: Não foi possivel identificar o registro informado", funcionario.getBody());
+    }
     @Test
     void testFindByIdFuncionario(){
         funcionarioController.cadastra(new FuncionarioDTO("Robson"));

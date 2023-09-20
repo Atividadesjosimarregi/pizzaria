@@ -14,12 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
     @Test
-    void getsetNome(){
+    void getset1login(){
         login.setLoginn("login");
         Assertions.assertEquals("login",login.getLoginn());
     }
     @Test
-    void getsetNome2(){
+    void getset2senha(){
         login.setSenha("senha");
         Assertions.assertEquals("senha",login.getSenha());
     }

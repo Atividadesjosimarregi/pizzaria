@@ -55,6 +55,11 @@ class EstoqueIntegracaoTests {
         var estoque = estoqueController.cadastra(new EstoqueDTO(23,"Monster"));
         Assert.assertEquals("Registro cadastrado com sucesso", estoque.getBody());
     }
+    @Test
+    void testCriarEstoqueErrado() {
+        var estoque = estoqueController.cadastra(new EstoqueDTO());
+        Assert.assertEquals("Error: Nome não pode ser nulo", estoque.getBody());
+    }
 
     @Test
     void testPutEstoque(){
@@ -68,9 +73,26 @@ class EstoqueIntegracaoTests {
     }
 
     @Test
+    void testPutEstoqueErrado(){
+        EstoqueDTO estoqueDTO = new EstoqueDTO(20,"Paçoca");
+        estoqueDTO.setId(1L);
+
+
+        var estoque = estoqueController.edita(10L, estoqueDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", estoque.getBody());
+    }
+
+    @Test
     void testDeleteEstoque(){
         var estoque = estoqueController.deleta(2L);
         Assert.assertEquals("excluído", estoque.getBody());
+    }
+
+    @Test
+    void testDeleteEstoqueErrado(){
+        var estoque = estoqueController.deleta(10L);
+        Assert.assertEquals("ERRor: Não foi possivel identificar o registro informado", estoque.getBody());
     }
 
     @Test

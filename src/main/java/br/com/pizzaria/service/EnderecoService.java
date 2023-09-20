@@ -23,11 +23,11 @@ public class EnderecoService {
         var enderecos = new Endereco();
         BeanUtils.copyProperties(endereco,enderecos);
 
-        Assert.isTrue(enderecos.getRua().length() <=50,"Endereço só pode ter até 50 caracteres");
         Assert.isTrue(enderecos.getRua() != null,"Endereço não pode ser nulo");
+        Assert.isTrue(enderecos.getRua().length() <=50,"Endereço só pode ter até 50 caracteres");
 
-        Assert.isTrue(enderecos.getBairro().length() <=50,"Bairro só pode ter até 50 caracteres");
         Assert.isTrue(enderecos.getBairro() != null,"Bairro não pode ser nulo");
+        Assert.isTrue(enderecos.getBairro().length() <=50,"Bairro só pode ter até 50 caracteres");
 
         Assert.isTrue(enderecos.getNumero() != 0,"Número não pode ser nulo");
 
@@ -35,8 +35,9 @@ public class EnderecoService {
             Assert.isTrue(enderecos.getObservacao().length() <= 100, "Observação tem o máximo de 100 caracteres");
         }
 
-        Assert.isTrue(enderecos.getCep().length() <= 15,"Cep só pode ter até 15 caracteres");
         Assert.isTrue(enderecos.getCep() != null,"Cep não pode ser nulo");
+        Assert.isTrue(enderecos.getCep().length() <= 15,"Cep só pode ter até 15 caracteres");
+
 
 
 
@@ -57,11 +58,11 @@ public class EnderecoService {
 
             BeanUtils.copyProperties(enderecoDTO, enderecoExistente);
 
-            Assert.isTrue(enderecoExistente.getRua().length() <=50,"Endereço só pode ter até 50 caracteres");
             Assert.isTrue(enderecoExistente.getRua() != null,"Endereço não pode ser nulo");
+            Assert.isTrue(enderecoExistente.getRua().length() <=50,"Endereço só pode ter até 50 caracteres");
 
-            Assert.isTrue(enderecoExistente.getBairro().length() <=50,"Bairro só pode ter até 50 caracteres");
             Assert.isTrue(enderecoExistente.getBairro() != null,"Bairro não pode ser nulo");
+            Assert.isTrue(enderecoExistente.getBairro().length() <=50,"Bairro só pode ter até 50 caracteres");
 
             Assert.isTrue(enderecoExistente.getNumero() != 0,"Número não pode ser nulo");
 
@@ -69,9 +70,8 @@ public class EnderecoService {
                 Assert.isTrue(enderecoExistente.getObservacao().length() <= 100, "Observação tem o máximo de 100 caracteres");
             }
 
-            Assert.isTrue(enderecoExistente.getCep().length() <= 15,"Cep só pode ter até 15 caracteres");
             Assert.isTrue(enderecoExistente.getCep() != null,"Cep não pode ser nulo");
-
+            Assert.isTrue(enderecoExistente.getCep().length() <= 15,"Cep só pode ter até 15 caracteres");
 
             this.enderecoRep.save(enderecoExistente);
         }

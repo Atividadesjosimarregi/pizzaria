@@ -62,6 +62,12 @@ class LoginIntegracaoTests {
     }
 
     @Test
+    void testLoginCriarErrado() {
+        var login = loginController.cadastra(new LoginDTO());
+        Assert.assertEquals("Error: Login não pode ser nulo", login.getBody());
+    }
+
+    @Test
     void testPutLogin(){
         LoginDTO loginDTO = new LoginDTO("admin","admin");
         loginDTO.setId(1L);
@@ -71,11 +77,26 @@ class LoginIntegracaoTests {
 
         Assert.assertEquals("Registro Cadastrado com Sucesso", login.getBody());
     }
+    @Test
+    void testPutLoginErrado(){
+        LoginDTO loginDTO = new LoginDTO("admin","admin");
+        loginDTO.setId(1L);
+
+
+        var login = loginController.edita(10L, loginDTO);
+
+        Assert.assertEquals("Nao foi possivel indentificar o registro informado", login.getBody());
+    }
 
     @Test
     void testLoginDelete(){
         var login = loginController.deleta(2L);
         Assert.assertEquals("excluído", login.getBody());
+    }
+    @Test
+    void testLoginDeleteErrado(){
+        var login = loginController.deleta(10L);
+        Assert.assertEquals("ERRor: Não foi possivel identificar o registro informado", login.getBody());
     }
 
     @Test

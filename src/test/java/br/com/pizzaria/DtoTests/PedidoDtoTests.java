@@ -29,45 +29,45 @@ import java.util.List;
     PedidoDTO pedido2 = new PedidoDTO();
 
     @Test
-    void getsetNome(){
+    void getset1Preco(){
         pedido.setPreco(20);
         Assertions.assertEquals(20,pedido.getPreco());
     }
     @Test
-    void getsetNome2(){
+    void getset2Cadastro(){
         String dataString2 = "2024-09-20T02:03:38.724796100";
         LocalDateTime dataManual2 = LocalDateTime.parse(dataString2, formatter);
         pedido.setCadastro(dataManual2);
         Assertions.assertEquals(dataManual2,pedido.getCadastro());
     }
     @Test
-    void getsetNome3(){
+    void getset3Cancelado(){
         pedido.setCancelado(true);
         Assertions.assertTrue(pedido.isCancelado());
     }
     @Test
-    void getsetNome4(){
+    void getset4Entrega(){
         pedido.setEntrega(true);
         Assertions.assertTrue(pedido.isEntrega());
     }
 
     @Test
-    void getsetNome5(){
+    void getset5Delivery(){
         pedido.setDelivery(true);
         Assertions.assertTrue(pedido.isDelivery());
     }
     @Test
-    void getsetNome6(){
+    void getsetNome6Obervacoes(){
         pedido.setObservacoes("Oi");
         Assertions.assertEquals("Oi",pedido.getObservacoes());
     }
     @Test
-    void getsetNome7(){
+    void getsetNome7Cartao(){
         pedido.setPagamentoCartao(true);
         Assertions.assertTrue(pedido.isPagamentoCartao());
     }
     @Test
-    void getsetNome8(){
+    void getsetNome8Status(){
         pedido.setStatus(Status.ANDAMENTO);
         Assertions.assertEquals(Status.ANDAMENTO,pedido.getStatus());
     }
