@@ -8,17 +8,17 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "sabores")
-public class Sabor extends abstractEntity{
+public class Sabor extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "sabor",nullable = false,unique = true,length = 100)
-    private String sabor;
+    private String saborr;
 
     public Sabor(){
 
     }
-    public Sabor(Long id,String sabor) {
+    public Sabor(Long id,String saborr) {
         this.id = id;
-        this.sabor = sabor;
+        this.saborr = saborr;
     }
 }

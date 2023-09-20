@@ -1,16 +1,14 @@
 package br.com.pizzaria.entity;
 
-import com.zaxxer.hikari.util.ClockSource;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
 
 @Entity
 @Table(name = "produtos",schema = "public")
-public class Produto extends abstractEntity{
+public class Produto extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "quantidade",nullable = false)

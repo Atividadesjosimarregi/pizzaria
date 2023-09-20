@@ -1,11 +1,8 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.SaborDTO;
-import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Sabor;
-import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.repository.SaborRepository;
-import br.com.pizzaria.service.ClienteService;
 import br.com.pizzaria.service.SaborService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,16 +27,13 @@ public class SaborController {
         return ResponseEntity.ok(sabor);
     }
     @GetMapping("/lista")
-    public ResponseEntity<List<Sabor>> List(){
+    public ResponseEntity<List<Sabor>> list(){
         return ResponseEntity.ok(this.saborRep.findAll());
 
     }
 
-
-
-
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final SaborDTO sabor){
+    public ResponseEntity <String> cadastra(@RequestBody final SaborDTO sabor){
         try {
             this.saborServ.cadastrarSabor(sabor);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
@@ -50,7 +44,7 @@ public class SaborController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final SaborDTO sabor){
+    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final SaborDTO sabor){
         try {
             final Sabor sabor1 = this.saborRep.findById(id).orElse(null);
 
@@ -60,24 +54,20 @@ public class SaborController {
             this.saborServ.atualizaSabor(sabor);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleta(@PathVariable Long id) {
+    public ResponseEntity<String> deleta(@PathVariable Long id) {
         try {
 
             this.saborServ.excluirSabor(id);
             return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
         }
     }
 

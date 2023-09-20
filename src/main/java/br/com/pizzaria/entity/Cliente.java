@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "clientes", schema = "public")
-public class Cliente extends abstractEntity{
+public class Cliente extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "nome",nullable = false, length = 50)

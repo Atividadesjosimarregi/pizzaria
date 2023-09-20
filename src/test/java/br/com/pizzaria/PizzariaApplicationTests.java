@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.junit.Assert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -246,7 +245,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testFindAllCliente(){
-		ResponseEntity<List<Cliente>> clienteFuncaoController = clienteController.List();
+		ResponseEntity<List<Cliente>> clienteFuncaoController = clienteController.list();
 		List<Cliente> clienteListController = clienteFuncaoController.getBody();
 
 		Assert.assertNotNull(clienteListController);
@@ -287,7 +286,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testFindAllFuncinario(){
-		ResponseEntity<List<Funcionario>> funcionarioFuncaoController = funcionarioController.List();
+		ResponseEntity<List<Funcionario>> funcionarioFuncaoController = funcionarioController.list();
 		List<Funcionario> funcionarioListController = funcionarioFuncaoController.getBody();
 
 		Assert.assertNotNull(funcionarioListController);
@@ -334,7 +333,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testFindAllEndereco(){
-		ResponseEntity<List<Endereco>> enderecoFuncaoController = enderecoController.List();
+		ResponseEntity<List<Endereco>> enderecoFuncaoController = enderecoController.list();
 		List<Endereco> enderecoListController = enderecoFuncaoController.getBody();
 
 		Assert.assertNotNull(enderecoListController);
@@ -376,7 +375,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testFindAllEstoque(){
-		ResponseEntity<List<Estoque>> estoqueFuncaoController = estoqueController.List();
+		ResponseEntity<List<Estoque>> estoqueFuncaoController = estoqueController.list();
 		List<Estoque> estoqueListController = estoqueFuncaoController.getBody();
 
 		Assert.assertNotNull(estoqueListController);
@@ -412,13 +411,13 @@ class PizzariaApplicationTests {
 	void testFindByIdLogin(){
 		loginController.cadastra(new LoginDTO("adm","adm"));
 		var login = loginController.findById(1L);
-		Assert.assertEquals(login.getBody().getLogin(), loginController.findById(1L).getBody().getLogin());
+		Assert.assertEquals(login.getBody().getLoginn(), loginController.findById(1L).getBody().getLoginn());
 	}
 
 
 	@Test
 	void testFindAllLogin(){
-		ResponseEntity<List<Login>> loginFuncaoController = loginController.List();
+		ResponseEntity<List<Login>> loginFuncaoController = loginController.list();
 		List<Login> loginListController = loginFuncaoController.getBody();
 
 		Assert.assertNotNull(loginListController);
@@ -455,12 +454,12 @@ class PizzariaApplicationTests {
 	void testFindByIdSabor(){
 		saborController.cadastra(new SaborDTO("4 queijos"));
 		var sabor = saborController.findById(1L);
-		Assert.assertEquals(sabor.getBody().getSabor(), saborController.findById(1L).getBody().getSabor());
+		Assert.assertEquals(sabor.getBody().getSaborr(), saborController.findById(1L).getBody().getSaborr());
 	}
 
 	@Test
 	void testFindAllSabor(){
-		ResponseEntity<List<Sabor>> saborFuncaoController = saborController.List();
+		ResponseEntity<List<Sabor>> saborFuncaoController = saborController.list();
 		List<Sabor> saborListController = saborFuncaoController.getBody();
 
 		Assert.assertNotNull(saborListController);
@@ -503,7 +502,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testFindAllPizza(){
-		ResponseEntity<List<Pizza>> pizzaFuncaoController = pizzaController.List();
+		ResponseEntity<List<Pizza>> pizzaFuncaoController = pizzaController.list();
 		List<Pizza> pizzaListController = pizzaFuncaoController.getBody();
 
 		Assert.assertNotNull(pizzaListController);
@@ -547,7 +546,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testFindAllProduto(){
-		ResponseEntity<List<Produto>> produtoFuncaoCotroller = produtoController.List();
+		ResponseEntity<List<Produto>> produtoFuncaoCotroller = produtoController.list();
 		List<Produto> produtoListController = produtoFuncaoCotroller.getBody();
 
 		Assert.assertNotNull(produtoListController);
@@ -598,7 +597,7 @@ class PizzariaApplicationTests {
 
 	@Test
 	void testFindAllPedidos(){
-		ResponseEntity<List<Pedido>> pedidoFuncaoController = pedidoController.List();
+		ResponseEntity<List<Pedido>> pedidoFuncaoController = pedidoController.list();
 		List<Pedido> pedidoListController = pedidoFuncaoController.getBody();
 		System.out.println(pedidoFuncaoController);
 		Assert.assertNotNull(pedidoListController);

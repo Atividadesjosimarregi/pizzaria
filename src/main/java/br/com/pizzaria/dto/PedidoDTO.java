@@ -3,17 +3,14 @@ package br.com.pizzaria.dto;
 import br.com.pizzaria.entity.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 public class PedidoDTO extends AbstractDTO{
 
-
-
     private String observacoes;
-
 
     private Cliente cliente;
 

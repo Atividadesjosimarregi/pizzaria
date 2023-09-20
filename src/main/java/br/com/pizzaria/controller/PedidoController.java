@@ -1,12 +1,9 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.PedidoDTO;
-import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Pedido;
 import br.com.pizzaria.entity.Status;
-import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.repository.PedidoRepository;
-import br.com.pizzaria.service.ClienteService;
 import br.com.pizzaria.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,7 +36,7 @@ public class PedidoController {
         return ResponseEntity.ok(pedido);
     }
     @GetMapping("/lista")
-    public ResponseEntity<List<Pedido>> List(){
+    public ResponseEntity<List<Pedido>> list(){
         return ResponseEntity.ok(this.pedidoRep.findAll());
 
     }
@@ -47,7 +44,6 @@ public class PedidoController {
     @GetMapping("/solicitados")
     public ResponseEntity<List<Pedido>> solicitados() {
         List<Pedido> pedidosAndamento = this.pedidoRep.findByStatus(Status.ANDAMENTO);
-        System.out.println("Número de pedidos em ANDAMENTO: " + pedidosAndamento.size());
         return ResponseEntity.ok(pedidosAndamento);
     }
 
@@ -59,9 +55,7 @@ public class PedidoController {
         LocalDateTime inicioDoDia = dataAtual.atStartOfDay();
         LocalDateTime fimDoDia = dataAtual.atTime(23, 59, 59);
 
-        List<Pedido> pedidosDoDia = pedidoRep.findByCadastroBetween(inicioDoDia, fimDoDia);
-
-        return pedidosDoDia;
+        return pedidoRep.findByCadastroBetween(inicioDoDia, fimDoDia);
     }
 
     @GetMapping("/pedidosEncerradosDoDia")
@@ -71,25 +65,21 @@ public class PedidoController {
         LocalDateTime inicioDoDia = dataAtual.atStartOfDay();
         LocalDateTime fimDoDia = dataAtual.atTime(23, 59, 59);
 
-        List<Pedido> pedidosEncerradosDoDia = pedidoRep.findByStatusAndCadastroBetween(
+        return pedidoRep.findByStatusAndCadastroBetween(
                 ENTREGUE, inicioDoDia, fimDoDia
         );
-
-        return pedidosEncerradosDoDia;
     }
 
     @GetMapping("/pedidosCanceladosDoDia")
     public List<Pedido> getPedidosCanceladosDoDia() {
         LocalDate dataAtual = LocalDate.now();
 
-        List<Pedido> pedidosCanceladosDoDia = pedidoRep.findByCanceladoAndCadastroBetween(true, dataAtual.atStartOfDay(), dataAtual.atTime(23, 59, 59));
-
-        return pedidosCanceladosDoDia;
+        return pedidoRep.findByCanceladoAndCadastroBetween(true, dataAtual.atStartOfDay(), dataAtual.atTime(23, 59, 59));
     }
 
 
     @GetMapping("/delivery/{ativo}")
-    public ResponseEntity<?> delivery(@PathVariable("ativo") boolean delivery) {
+    public ResponseEntity<Map<String, Long>> delivery(@PathVariable("ativo") boolean delivery) {
         List<Pedido> pedidos;
         if (!delivery) {
             pedidos = pedidoRep.findByDelivery(false);
@@ -114,7 +104,7 @@ public class PedidoController {
 
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final PedidoDTO pedido){
+    public ResponseEntity <String> cadastra(@RequestBody final PedidoDTO pedido){
         try {
             this.pedidoServ.cadastrarPedido(pedido);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
@@ -125,7 +115,7 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final PedidoDTO pedido){
+    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final PedidoDTO pedido){
         try {
             final Pedido pedido1 = this.pedidoRep.findById(id).orElse(null);
 
@@ -135,24 +125,20 @@ public class PedidoController {
             this.pedidoServ.atualizaPedido(pedido,id);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleta(@PathVariable Long id) {
+    public ResponseEntity<String> deleta(@PathVariable Long id) {
         try {
 
             this.pedidoServ.excluirPedido(id);
             return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
         }
     }
 

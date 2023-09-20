@@ -1,11 +1,8 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.ProdutoDTO;
-import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Produto;
-import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.repository.ProdutoRepository;
-import br.com.pizzaria.service.ClienteService;
 import br.com.pizzaria.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,14 +27,14 @@ public class ProdutoController {
         return ResponseEntity.ok(produto);
     }
     @GetMapping("/lista")
-    public ResponseEntity<List<Produto>> List(){
+    public ResponseEntity<List<Produto>> list(){
         return ResponseEntity.ok(this.produtoRep.findAll());
 
     }
 
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final ProdutoDTO produto){
+    public ResponseEntity <String> cadastra(@RequestBody final ProdutoDTO produto){
         try {
             this.produtoServ.cadastrarProduto(produto);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
@@ -48,7 +45,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final ProdutoDTO produto){
+    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final ProdutoDTO produto){
         try {
             final Produto produto1 = this.produtoRep.findById(id).orElse(null);
 
@@ -58,24 +55,20 @@ public class ProdutoController {
             this.produtoServ.atualizaProduto(produto);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleta(@PathVariable Long id) {
+    public ResponseEntity<String> deleta(@PathVariable Long id) {
         try {
 
             this.produtoServ.excluirProduto(id);
             return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
         }
     }
 

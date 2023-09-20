@@ -7,15 +7,23 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class FuncionarioDtoTests {
+ class FuncionarioDtoTests {
 
     FuncionarioDTO funcionario = new FuncionarioDTO("Douglas");
+
+    FuncionarioDTO funcionario2 = new FuncionarioDTO();
 
 
     @Test
     void getsetNome(){
         funcionario.setNome("Lucas");
         Assertions.assertEquals("Lucas",funcionario.getNome());
+    }
+
+    @Test
+    void testconstrutorvazio(){
+        FuncionarioDTO funcionario3 = new FuncionarioDTO();
+        Assertions.assertEquals(funcionario2,funcionario3);
     }
 
     @Test

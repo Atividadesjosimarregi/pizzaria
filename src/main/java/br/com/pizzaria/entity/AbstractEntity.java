@@ -3,10 +3,10 @@ package br.com.pizzaria.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.hibernate.annotations.ValueGenerationType;
+
 
 @MappedSuperclass
-public class abstractEntity {
+public class AbstractEntity {
 
     @Id
     @Getter

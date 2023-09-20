@@ -5,11 +5,11 @@ import br.com.pizzaria.entity.Cliente;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class EnderecoDtoTests {
+ class EnderecoDtoTests {
 
     Cliente cliente = new Cliente(1L,"Josimar");
     EnderecoDTO endereco = new EnderecoDTO("Dois vizinhos","Jardim ipe",321,"Casa vermelha","3499525-3",cliente);
-
+    EnderecoDTO endereco2 = new EnderecoDTO();
     @Test
     void getsetNomeRua(){
         endereco.setRua("Laranjeira");
@@ -38,6 +38,12 @@ public class EnderecoDtoTests {
         endereco.setCep("231151-4");
         Assertions.assertEquals("231151-4", endereco.getCep());
     }
+    @Test
+    void testconstrutorvazio(){
+        EnderecoDTO endereco3 = new EnderecoDTO();
+        Assertions.assertEquals(endereco2,endereco3);
+    }
+
 
     @Test
     void testeid(){

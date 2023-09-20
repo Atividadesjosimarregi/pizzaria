@@ -1,10 +1,8 @@
 package br.com.pizzaria.service;
 
-import br.com.pizzaria.dto.EnderecoDTO;
+
 import br.com.pizzaria.dto.FuncionarioDTO;
-import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.entity.Funcionario;
-import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.FuncionarioRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +56,7 @@ public class FuncionarioService {
         final Funcionario funcionarioBanco = this.funcionarioRep.findById(id).orElse(null);
 
         if (funcionarioBanco == null || funcionarioBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o funcionario informado.");
+            Assert.isTrue(2 == 3 , "Não foi possivel identificar o registro informado");
         }
         this.funcionarioRep.delete(funcionarioBanco);
     }

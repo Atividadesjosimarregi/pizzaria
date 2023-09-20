@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class PizzaDtoTests {
+ class PizzaDtoTests {
 
     private List<Sabor> saborList = new ArrayList<>();
     PizzaDTO pizza = new PizzaDTO(saborList,20,2, Tamanho.P);
+    PizzaDTO pizza2 = new PizzaDTO();
 
     @Test
     void getsetNome(){
@@ -31,6 +32,11 @@ public class PizzaDtoTests {
     void getsetNomes3(){
         pizza.setTamanho(Tamanho.M);
         Assertions.assertEquals(Tamanho.M,pizza.getTamanho());
+    }
+    @Test
+    void testconstrutorvazio(){
+        PizzaDTO pizza3 = new PizzaDTO();
+        Assertions.assertEquals(pizza2,pizza3);
     }
 
     @Test

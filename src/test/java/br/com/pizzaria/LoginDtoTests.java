@@ -7,15 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class LoginDtoTests {
+ class LoginDtoTests {
 
     LoginDTO login = new LoginDTO("admin","admin");
+    LoginDTO login2 = new LoginDTO();
 
 
     @Test
     void getsetNome(){
-        login.setLogin("login");
-        Assertions.assertEquals("login",login.getLogin());
+        login.setLoginn("login");
+        Assertions.assertEquals("login",login.getLoginn());
     }
     @Test
     void getsetNome2(){
@@ -23,6 +24,11 @@ public class LoginDtoTests {
         Assertions.assertEquals("senha",login.getSenha());
     }
 
+    @Test
+    void testconstrutorvazio(){
+        LoginDTO login3 = new LoginDTO();
+        Assertions.assertEquals(login2,login3);
+    }
     @Test
     void testeid(){
         login.setId(2L);

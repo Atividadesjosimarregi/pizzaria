@@ -2,18 +2,17 @@ package br.com.pizzaria.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "logins",schema = "public")
-public class Login extends abstractEntity{
+public class Login extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "login",nullable = false,unique = true,length = 40)
-    private String login;
+    private String loginn;
 
     @Getter @Setter
     @Column(name = "senha",nullable = false,length = 40)
@@ -22,9 +21,9 @@ public class Login extends abstractEntity{
     public Login(){
 
     }
-    public Login(Long id,String login, String senha) {
+    public Login(Long id,String loginn, String senha) {
         this.id = id;
-        this.login = login;
+        this.loginn = loginn;
         this.senha = senha;
     }
 }

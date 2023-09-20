@@ -1,13 +1,14 @@
 package br.com.pizzaria;
 
-import br.com.pizzaria.dto.ClienteDTO;
+
 import br.com.pizzaria.dto.EstoqueDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class EstoqueDtoTests {
+ class EstoqueDtoTests {
 
     EstoqueDTO estoque = new EstoqueDTO(10,"coca");
+    EstoqueDTO estoque2 = new EstoqueDTO();
 
     @Test
     void getsetPreco(){
@@ -18,6 +19,11 @@ public class EstoqueDtoTests {
     void getsetNome(){
         estoque.setNome("Kuat");
         Assertions.assertEquals("Kuat", estoque.getNome());
+    }
+    @Test
+    void testconstrutorvazio(){
+        EstoqueDTO estoque3 = new EstoqueDTO();
+        Assertions.assertEquals(estoque2,estoque3);
     }
 
     @Test

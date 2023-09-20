@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Entity
 @Table(name = "pedidos",schema = "public")
-public class Pedido extends abstractEntity{
+public class Pedido extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "observacoes",length = 80)

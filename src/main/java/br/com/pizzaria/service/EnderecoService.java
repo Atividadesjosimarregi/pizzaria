@@ -6,6 +6,7 @@ import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.repository.EnderecoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -81,8 +82,8 @@ public class EnderecoService {
 
         final Endereco enderecoBanco = this.enderecoRep.findById(id).orElse(null);
 
-        if (enderecoBanco == null || enderecoBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o endereco informado.");
+        if (enderecoBanco == null || enderecoBanco.getId() !=(id)){
+            Assert.isTrue(2 == 3 ,"Não foi possivel encontrar o registro informado");
         }
         this.enderecoRep.delete(enderecoBanco);
     }

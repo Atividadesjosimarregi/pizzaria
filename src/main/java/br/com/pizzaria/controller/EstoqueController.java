@@ -27,13 +27,13 @@ public class EstoqueController {
         return ResponseEntity.ok(estoque);
     }
     @GetMapping("/lista")
-    public ResponseEntity<List<Estoque>> List(){
+    public ResponseEntity<List<Estoque>> list(){
         return ResponseEntity.ok(this.estoqueRep.findAll());
 
     }
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final EstoqueDTO estoque){
+    public ResponseEntity <String> cadastra(@RequestBody final EstoqueDTO estoque){
         try {
             this.estoqueServ.cadastrarEstoque(estoque);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
@@ -44,7 +44,7 @@ public class EstoqueController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final EstoqueDTO estoque){
+    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final EstoqueDTO estoque){
         try {
             final Estoque estoque1 = this.estoqueRep.findById(id).orElse(null);
 
@@ -54,24 +54,20 @@ public class EstoqueController {
             this.estoqueServ.atualizaEstoque(estoque);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleta(@PathVariable Long id) {
+    public ResponseEntity<String> deleta(@PathVariable Long id) {
         try {
 
             this.estoqueServ.excluirEstoque(id);
             return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
         }
     }
 

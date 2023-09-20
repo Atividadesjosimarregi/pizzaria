@@ -1,16 +1,10 @@
 package br.com.pizzaria.dto;
 
 
-import br.com.pizzaria.entity.Pizza;
-import br.com.pizzaria.entity.Sabor;
 import br.com.pizzaria.entity.Sabor;
 import br.com.pizzaria.entity.Tamanho;
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "endereços",schema = "public")
-public class Endereco extends abstractEntity{
+public class Endereco extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "rua",nullable = false, length = 50)

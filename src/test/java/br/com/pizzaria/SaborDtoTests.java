@@ -6,15 +6,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class SaborDtoTests {
+ class SaborDtoTests {
 
     SaborDTO sabor = new SaborDTO("Bacon");
+    SaborDTO sabor2 = new SaborDTO();
 
 
     @Test
     void getsetNome(){
-        sabor.setSabor("Queijo");
-        Assertions.assertEquals("Queijo",sabor.getSabor());
+        sabor.setSaborr("Queijo");
+        Assertions.assertEquals("Queijo",sabor.getSaborr());
+    }
+    @Test
+    void testconstrutorvazio(){
+        SaborDTO sabor3 = new SaborDTO();
+        Assertions.assertEquals(sabor2,sabor3);
     }
 
     @Test

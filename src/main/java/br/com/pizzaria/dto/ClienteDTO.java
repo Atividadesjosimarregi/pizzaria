@@ -1,7 +1,6 @@
 package br.com.pizzaria.dto;
 
 import br.com.pizzaria.entity.Endereco;
-import br.com.pizzaria.entity.Login;
 import lombok.Data;
 
 import java.util.List;

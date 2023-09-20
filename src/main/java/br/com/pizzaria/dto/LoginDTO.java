@@ -1,16 +1,14 @@
 package br.com.pizzaria.dto;
 
-import jakarta.persistence.Column;
+
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.java.Log;
+
 
 @Data
 public class LoginDTO extends AbstractDTO {
 
 
-    private String login;
+    private String loginn;
 
 
     private String senha;
@@ -18,8 +16,8 @@ public class LoginDTO extends AbstractDTO {
     public LoginDTO(){
 
     }
-    public LoginDTO(String login, String senha) {
-        this.login = login;
+    public LoginDTO(String loginn, String senha) {
+        this.loginn = loginn;
         this.senha = senha;
     }
 }

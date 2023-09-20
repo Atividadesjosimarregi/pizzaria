@@ -1,11 +1,9 @@
 package br.com.pizzaria.service;
 
-import br.com.pizzaria.dto.EnderecoDTO;
+
 import br.com.pizzaria.dto.ProdutoDTO;
-import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.entity.Estoque;
 import br.com.pizzaria.entity.Produto;
-import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.EstoqueRepository;
 import br.com.pizzaria.repository.ProdutoRepository;
 import org.springframework.beans.BeanUtils;
@@ -69,7 +67,7 @@ public class ProdutoService {
         final Produto produtoBanco = this.produtoRep.findById(id).orElse(null);
 
         if (produtoBanco == null || produtoBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o produto informado.");
+            Assert.isTrue(2 == 3,"Não foi possivel identificar o registro informado");
         }
         this.produtoRep.delete(produtoBanco);
     }

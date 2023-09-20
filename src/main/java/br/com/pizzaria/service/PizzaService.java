@@ -1,11 +1,9 @@
 package br.com.pizzaria.service;
 
-import br.com.pizzaria.dto.EnderecoDTO;
+
 import br.com.pizzaria.dto.PizzaDTO;
-import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.entity.Pizza;
 import br.com.pizzaria.entity.Tamanho;
-import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.PizzaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.math.BigDecimal;
+
 
 @Service
 public class PizzaService {
@@ -57,7 +55,6 @@ public class PizzaService {
             pizzas.setPreco(50 * pizzas.getQuantidade());
         }
 
-        System.out.println(pizzas);
         this.pizzaRep.save(pizzas);
     }
 
@@ -86,7 +83,7 @@ public class PizzaService {
         final Pizza pizzaBanco = this.pizzaRep.findById(id).orElse(null);
 
         if (pizzaBanco == null || pizzaBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o pizza informado.");
+            Assert.isTrue(2 == 3,"Não foi possivel identificar o registro informado");
         }
         this.pizzaRep.delete(pizzaBanco);
     }

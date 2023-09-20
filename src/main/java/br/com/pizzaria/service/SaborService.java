@@ -1,10 +1,8 @@
 package br.com.pizzaria.service;
 
-import br.com.pizzaria.dto.EnderecoDTO;
+
 import br.com.pizzaria.dto.SaborDTO;
-import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.entity.Sabor;
-import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.SaborRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +23,8 @@ public class SaborService {
         var sabors = new Sabor();
         BeanUtils.copyProperties(sabor,sabors);
 
-        Assert.isTrue(sabors.getSabor() != null,"Nome do sabor não pode ser nulo");
-        Assert.isTrue(sabor.getSabor().length() <= 100,"Nome pode ter até 100 caracteres");
+        Assert.isTrue(sabors.getSaborr() != null,"Nome do sabor não pode ser nulo");
+        Assert.isTrue(sabor.getSaborr().length() <= 100,"Nome pode ter até 100 caracteres");
 
         this.saborRep.save(sabors);
     }
@@ -43,8 +41,8 @@ public class SaborService {
 
             BeanUtils.copyProperties(saborDTO, saborExistente);
 
-            Assert.isTrue(saborExistente.getSabor() != null,"Nome do sabor não pode ser nulo");
-            Assert.isTrue(saborExistente.getSabor().length() <= 100,"Nome pode ter até 100 caracteres");
+            Assert.isTrue(saborExistente.getSaborr() != null,"Nome do sabor não pode ser nulo");
+            Assert.isTrue(saborExistente.getSaborr().length() <= 100,"Nome pode ter até 100 caracteres");
 
             this.saborRep.save(saborExistente);
         }
@@ -56,7 +54,7 @@ public class SaborService {
         final Sabor saborBanco = this.saborRep.findById(id).orElse(null);
 
         if (saborBanco == null || saborBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o sabor informado.");
+            Assert.isTrue(2 == 3, "Não foi possivel identificar o registro informado");
         }
         this.saborRep.delete(saborBanco);
     }

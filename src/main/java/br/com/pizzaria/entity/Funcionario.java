@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "funcionarios",schema = "public")
-public class Funcionario extends abstractEntity{
+public class Funcionario extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "nome",nullable = false,length = 80)

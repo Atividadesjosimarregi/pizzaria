@@ -5,6 +5,7 @@ import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -23,9 +24,6 @@ public class ClienteService {
 
         Assert.isTrue(clientes.getNome().length() <=50,"Nome só pode ter até 50 caracteres");
         Assert.isTrue(clientes.getNome() != null,"Nome não pode ser nulo");
-
-
-
 
         this.clienteRep.save(clientes);
     }
@@ -51,11 +49,14 @@ public class ClienteService {
     @Transactional(rollbackFor = Exception.class)
     public void excluirCliente(final Long id){
 
+        final Cliente cliente1 = this.clienteRep.findById(id).orElse(null);
+
+        if (cliente1 == null || cliente1.getId() != (id)){
+            Assert.isTrue(2 == 3,"Não foi possivel encontrar o registro informado");
+        }
         final Cliente clienteBanco = this.clienteRep.findById(id).orElse(null);
 
-        if (clienteBanco == null || clienteBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o cliente informado.");
-        }
+
         this.clienteRep.delete(clienteBanco);
     }
 

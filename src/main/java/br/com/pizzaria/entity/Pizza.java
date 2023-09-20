@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Table(name = "pizzas",schema = "public")
-public class Pizza extends abstractEntity{
+public class Pizza extends AbstractEntity {
 
     @Getter @Setter
     @ManyToMany(fetch = FetchType.EAGER)

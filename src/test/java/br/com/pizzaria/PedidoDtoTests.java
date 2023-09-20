@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class PedidoDtoTests {
+ class PedidoDtoTests {
 
     private List<Pizza> pizzaList = new ArrayList<>();
     private List<Produto> produtoList = new ArrayList<>();
@@ -26,7 +26,7 @@ public class PedidoDtoTests {
     String dataString = "2023-09-20T02:03:38.724796100";
     LocalDateTime dataManual = LocalDateTime.parse(dataString, formatter);
     PedidoDTO pedido = new PedidoDTO("Nenhuma",cliente,20, Status.ANDAMENTO,pizzaList,produtoList,false,false,false,false, dataManual,funcionario);
-
+    PedidoDTO pedido2 = new PedidoDTO();
 
     @Test
     void getsetNome(){
@@ -70,6 +70,11 @@ public class PedidoDtoTests {
     void getsetNome8(){
         pedido.setStatus(Status.ANDAMENTO);
         Assertions.assertEquals(Status.ANDAMENTO,pedido.getStatus());
+    }
+    @Test
+    void testconstrutorvazio(){
+        PedidoDTO pedido3 = new PedidoDTO();
+        Assertions.assertEquals(pedido2,pedido3);
     }
 
     @Test

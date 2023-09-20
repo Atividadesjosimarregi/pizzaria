@@ -1,11 +1,9 @@
 package br.com.pizzaria.service;
 
 
-import br.com.pizzaria.dto.EnderecoDTO;
+
 import br.com.pizzaria.dto.EstoqueDTO;
-import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.entity.Estoque;
-import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.EstoqueRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +25,8 @@ public class EstoqueService {
 
         Assert.isTrue(estoques.getNome().length() <=150,"Nome pode ter até 150 caracteres");
         Assert.isTrue(estoques.getNome() != null,"Nome não pode ser nulo");
-        Estoque Existente = estoqueRep.findByNome(estoques.getNome());
-        Assert.isTrue( Existente == null || Existente.equals(estoques.getNome()),"Nome já existente");
+        Estoque existente = estoqueRep.findByNome(estoques.getNome());
+        Assert.isTrue( existente == null || existente.equals(estoques.getNome()),"Nome já existente");
 
         Assert.isTrue(estoques.getPreco() != 0, "Preço não pode ser nulo");
 
@@ -65,7 +63,7 @@ public class EstoqueService {
         final Estoque estoqueBanco = this.estoqueRep.findById(id).orElse(null);
 
         if (estoqueBanco == null || estoqueBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o estoque informado.");
+            Assert.isTrue(2 == 3 ,"Não foi possivel identificar o registro informado");
         }
         this.estoqueRep.delete(estoqueBanco);
     }

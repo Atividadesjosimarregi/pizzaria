@@ -1,14 +1,10 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.EnderecoDTO;
-import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Endereco;
-import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.repository.EnderecoRepository;
-import br.com.pizzaria.service.ClienteService;
 import br.com.pizzaria.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,24 +26,24 @@ public class EnderecoController {
         return ResponseEntity.ok(endereco);
     }
     @GetMapping("/lista")
-    public ResponseEntity<List<Endereco>> List(){
+    public ResponseEntity<List<Endereco>> list(){
         return ResponseEntity.ok(this.enderecoRep.findAll());
 
     }
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final EnderecoDTO endereco){
+    public ResponseEntity <String> cadastra(@RequestBody final EnderecoDTO endereco){
         try {
             this.enderecoServ.cadastrarEndereco(endereco);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final EnderecoDTO endereco){
+    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final EnderecoDTO endereco){
         try {
             final Endereco endereco1 = this.enderecoRep.findById(id).orElse(null);
 
@@ -57,24 +53,20 @@ public class EnderecoController {
             this.enderecoServ.atualizaEndereco(endereco);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleta(@PathVariable Long id) {
+    public ResponseEntity<String> deleta(@PathVariable Long id) {
         try {
 
             this.enderecoServ.excluirEndereco(id);
             return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
         }
     }
 

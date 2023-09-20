@@ -2,9 +2,10 @@ package br.com.pizzaria;
 import br.com.pizzaria.dto.ClienteDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-public class ClienteDtoTests {
+ class ClienteDtoTests {
 
     ClienteDTO cliente = new ClienteDTO("Josimar");
+    ClienteDTO cliente2 = new ClienteDTO();
 
 
 
@@ -12,6 +13,11 @@ public class ClienteDtoTests {
     void getsetNome(){
         cliente.setNome("Reginaldo");
         Assertions.assertEquals("Reginaldo", cliente.getNome());
+    }
+    @Test
+    void testcontrutorvazio(){
+        ClienteDTO cliente3 = new ClienteDTO();
+        Assertions.assertEquals(cliente2,cliente3);
     }
 
     @Test

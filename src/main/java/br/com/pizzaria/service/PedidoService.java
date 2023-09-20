@@ -1,9 +1,7 @@
 package br.com.pizzaria.service;
 
-import br.com.pizzaria.dto.EnderecoDTO;
 import br.com.pizzaria.dto.PedidoDTO;
 import br.com.pizzaria.entity.*;
-import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.repository.PedidoRepository;
 import br.com.pizzaria.repository.PizzaRepository;
 import br.com.pizzaria.repository.ProdutoRepository;
@@ -49,22 +47,19 @@ public class PedidoService {
         Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
 
 
-if(pedidos.getProdutos()!=null){
-        if(pedidos.getProdutos().size() >= 1){
-            for(Produto produto : pedidos.getProdutos()) {
-                Optional<Produto> produtoTempo = produtoRep.findById(produto.getId());
-                totalProdutos += produtoTempo.get().getPrecoProduto();
-                System.out.println(totalProdutos);
-            }
+        if(pedidos.getProdutos()!=null){
+                for(Produto produto : pedidos.getProdutos()) {
+                    Optional<Produto> produtoTempo = produtoRep.findById(produto.getId());
+                    totalProdutos += produtoTempo.get().getPrecoProduto();
+                }
         }
-}
 
 
         if(pedidos.getPizzas().size() >= 1){
             for(Pizza pizza : pedidos.getPizzas()) {
                 Optional<Pizza> pizzaTempo = pizzaRep.findById(pizza.getId());
                 totalPizzas += pizzaTempo.get().getPreco();
-                System.out.println(totalPizzas);
+
             }
         }
         pedidos.setPreco(totalPizzas+totalProdutos);
@@ -78,19 +73,12 @@ if(pedidos.getProdutos()!=null){
 
         Pedido pedidoExistente = this.pedidoRep.findById(id).orElse(null);
 
-        float total = 0;
-        var pedidos = new Pedido();
+
         BeanUtils.copyProperties(pedidoDTO, pedidoExistente);
-
-
 
         Assert.isTrue(pedidoExistente.getCliente() != null,"Cliente não pode ser nulo");
         Assert.isTrue(pedidoExistente.getFuncionario() != null, "Funcionário não pode ser nulo");
         Assert.isTrue(pedidoExistente.getStatus() != null,"Status não pode ser nulo");
-
-
-
-
 
 
         this.pedidoRep.save(pedidoExistente);
@@ -103,7 +91,7 @@ if(pedidos.getProdutos()!=null){
         final Pedido pedidoBanco = this.pedidoRep.findById(id).orElse(null);
 
         if (pedidoBanco == null || pedidoBanco.getId()!=(id)){
-            throw new RuntimeException("Não foi possivel identificar o pedido informado.");
+            Assert.isTrue(2 == 3 , "Não foi impossivel identificar o registro informado");
         }
         this.pedidoRep.delete(pedidoBanco);
     }
@@ -122,7 +110,7 @@ if(pedidos.getProdutos()!=null){
                 if (sabores != null) {
                     writer.write("Sabores: ");
                     for (int j = 0; j < sabores.size(); j++) {
-                        writer.write(sabores.get(j).getSabor());
+                        writer.write(sabores.get(j).getSaborr());
                         if (j < sabores.size() - 1) {
                             writer.write(", ");
                         }

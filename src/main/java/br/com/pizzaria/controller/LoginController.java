@@ -1,11 +1,8 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.LoginDTO;
-import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.entity.Login;
-import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.repository.LoginRepository;
-import br.com.pizzaria.service.ClienteService;
 import br.com.pizzaria.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,14 +27,14 @@ public class LoginController {
         return ResponseEntity.ok(login);
     }
     @GetMapping("/lista")
-    public ResponseEntity<List<Login>> List(){
+    public ResponseEntity<List<Login>> list(){
         return ResponseEntity.ok(this.loginRep.findAll());
 
     }
 
 
     @PostMapping
-    public ResponseEntity <?> cadastra(@RequestBody final LoginDTO login){
+    public ResponseEntity <String> cadastra(@RequestBody final LoginDTO login){
         try {
             this.loginServ.cadastrarLogin(login);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
@@ -48,7 +45,7 @@ public class LoginController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> edita(@PathVariable("id") final Long id, @RequestBody final LoginDTO login){
+    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final LoginDTO login){
         try {
             final Login login1 = this.loginRep.findById(id).orElse(null);
 
@@ -58,24 +55,20 @@ public class LoginController {
             this.loginServ.atualizaLogin(login);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getMessage());
-        }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleta(@PathVariable Long id) {
+    public ResponseEntity<String> deleta(@PathVariable Long id) {
         try {
 
             this.loginServ.excluirLogin(id);
             return ResponseEntity.ok("excluído");
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
         }
     }
 
