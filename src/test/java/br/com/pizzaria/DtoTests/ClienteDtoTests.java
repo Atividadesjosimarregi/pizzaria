@@ -1,4 +1,4 @@
-package br.com.pizzaria;
+package br.com.pizzaria.DtoTests;
 import br.com.pizzaria.dto.ClienteDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

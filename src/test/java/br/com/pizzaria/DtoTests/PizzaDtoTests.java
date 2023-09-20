@@ -1,4 +1,4 @@
-package br.com.pizzaria;
+package br.com.pizzaria.DtoTests;
 
 import br.com.pizzaria.dto.PizzaDTO;
 import br.com.pizzaria.entity.Sabor;
