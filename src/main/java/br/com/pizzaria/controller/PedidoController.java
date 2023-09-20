@@ -45,11 +45,11 @@ public class PedidoController {
     }
 
     @GetMapping("/solicitados")
-    public ResponseEntity <List<Pedido>> solicitados(){
-
-        return ResponseEntity.ok(this.pedidoRep.findByStatus(ANDAMENTO));
+    public ResponseEntity<List<Pedido>> solicitados() {
+        List<Pedido> pedidosAndamento = this.pedidoRep.findByStatus(Status.ANDAMENTO);
+        System.out.println("Número de pedidos em ANDAMENTO: " + pedidosAndamento.size());
+        return ResponseEntity.ok(pedidosAndamento);
     }
-
 
 
     @GetMapping("/pedidosDoDia")

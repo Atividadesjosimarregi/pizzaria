@@ -48,6 +48,8 @@ public class PedidoService {
         Assert.isTrue(pedidos.getFuncionario() != null, "Funcionário não pode ser nulo");
         Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
 
+
+if(pedidos.getProdutos()!=null){
         if(pedidos.getProdutos().size() >= 1){
             for(Produto produto : pedidos.getProdutos()) {
                 Optional<Produto> produtoTempo = produtoRep.findById(produto.getId());
@@ -55,6 +57,7 @@ public class PedidoService {
                 System.out.println(totalProdutos);
             }
         }
+}
 
 
         if(pedidos.getPizzas().size() >= 1){

@@ -11,16 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.junit.Assert;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @SpringBootTest
 class PizzariaApplicationTests {
+
 
 	@MockBean
 	ClienteRepository clienteRepository;
@@ -30,6 +33,8 @@ class PizzariaApplicationTests {
 	FuncionarioRepository funcionarioRepository;
 	@Autowired
 	FuncionarioController funcionarioController;
+
+
 
 	@MockBean
 	EnderecoRepository enderecoRepository;
@@ -135,9 +140,9 @@ class PizzariaApplicationTests {
 		produtoList.add(produto2);
 
 		Pedido pedido = new Pedido(1L,"Observation",cliente,20,
-				Status.ANDAMENTO,pizzaList,produtoList,false,false,false,false, LocalDateTime.now(),funcionario);
+				Status.ANDAMENTO,pizzaList,produtoList,false,true,false,false, LocalDateTime.now(),funcionario);
 		Pedido pedido2 = new Pedido(2L,"Observation2",cliente2,20,
-				Status.ANDAMENTO,pizzaList,produtoList,false,false,false,false, LocalDateTime.now(),funcionario2);
+				Status.ANDAMENTO,pizzaList,produtoList,false,true,false,false, LocalDateTime.now(),funcionario2);
 		pedidoList = new ArrayList<>();
 		pedidoList.add(pedido);
 		pedidoList.add(pedido2);
@@ -195,6 +200,12 @@ class PizzariaApplicationTests {
 		Mockito.when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedido));
 		Mockito.when(pedidoRepository.findById(2L)).thenReturn(Optional.of(pedido2));
 		Mockito.when(pedidoRepository.findAll()).thenReturn(pedidoList);
+
+		Mockito.when(pedidoRepository.findByStatus(Status.ANDAMENTO)).thenReturn(pedidoList);
+
+		Mockito.when(pedidoRepository.findByDelivery(true)).thenReturn(pedidoList);
+
+
 
 
 
@@ -589,6 +600,7 @@ class PizzariaApplicationTests {
 	void testFindAllPedidos(){
 		ResponseEntity<List<Pedido>> pedidoFuncaoController = pedidoController.List();
 		List<Pedido> pedidoListController = pedidoFuncaoController.getBody();
+		System.out.println(pedidoFuncaoController);
 		Assert.assertNotNull(pedidoListController);
 		for(int i = 0; i < pedidoList.size();i ++){
 			Assert.assertEquals(pedidoList.get(i), pedidoListController.get(i));
@@ -605,6 +617,17 @@ class PizzariaApplicationTests {
 			Assert.assertEquals(pedidoList.get(i), pedidoListController.get(i));
 		}
 	}
+
+	@Test
+	void testFindDeliveryPedidos() {
+		ResponseEntity<?> responseEntity = pedidoController.delivery(true);
+		Assert.assertNotNull(responseEntity);
+		Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+		Assert.assertTrue(responseEntity.getBody() instanceof Map);
+
+
+	}
+
 
 
 
