@@ -23,6 +23,17 @@ public class PizzaDtoTests {
     }
 
     @Test
+    void getsetNomes2(){
+        pizza.setPreco(20);
+        Assertions.assertEquals(20,pizza.getPreco());
+    }
+    @Test
+    void getsetNomes3(){
+        pizza.setTamanho(Tamanho.M);
+        Assertions.assertEquals(Tamanho.P,pizza.getTamanho());
+    }
+
+    @Test
     void testeid(){
         pizza.setId(2L);
         Assertions.assertEquals(2,pizza.getId());
