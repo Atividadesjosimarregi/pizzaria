@@ -15,6 +15,12 @@ import org.junit.jupiter.api.Test;
         endereco.setRua("Laranjeira");
         Assertions.assertEquals("Laranjeira", endereco.getRua());
     }
+
+    @Test
+    void notNull(){
+        endereco.setBairro("Vila C");
+        Assertions.assertNotNull(endereco.getBairro());
+    }
     @Test
     void getsetNomeBairro(){
         endereco.setBairro("Lancaster");

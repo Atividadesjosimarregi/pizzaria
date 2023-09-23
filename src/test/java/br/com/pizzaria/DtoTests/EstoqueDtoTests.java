@@ -15,11 +15,14 @@ import org.junit.jupiter.api.Test;
         estoque.setPreco(20);
         Assertions.assertEquals(20, estoque.getPreco());
     }
+
+
     @Test
     void getsetNome(){
         estoque.setNome("Kuat");
         Assertions.assertEquals("Kuat", estoque.getNome());
     }
+
     @Test
     void testconstrutorvazio(){
         EstoqueDTO estoque3 = new EstoqueDTO();

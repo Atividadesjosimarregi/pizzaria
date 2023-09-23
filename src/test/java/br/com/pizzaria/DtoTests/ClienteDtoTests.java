@@ -14,6 +14,13 @@ import org.junit.jupiter.api.Test;
         cliente.setNome("Reginaldo");
         Assertions.assertEquals("Reginaldo", cliente.getNome());
     }
+
+    @Test
+    void nomeNull(){
+        ClienteDTO cliente3 = new ClienteDTO("Douglas");
+        Assertions.assertNotNull(cliente3);
+
+    }
     @Test
     void testcontrutorvazio(){
         ClienteDTO cliente3 = new ClienteDTO();

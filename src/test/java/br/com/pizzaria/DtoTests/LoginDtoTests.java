@@ -19,6 +19,11 @@ import org.springframework.boot.test.context.SpringBootTest;
         Assertions.assertEquals("login",login.getLoginn());
     }
     @Test
+    void testNull(){
+        login.setSenha("senha");
+        Assertions.assertNotNull(login.getSenha());
+    }
+    @Test
     void getset2senha(){
         login.setSenha("senha");
         Assertions.assertEquals("senha",login.getSenha());

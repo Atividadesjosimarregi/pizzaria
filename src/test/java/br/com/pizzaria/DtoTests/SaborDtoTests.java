@@ -18,6 +18,11 @@ import org.springframework.boot.test.context.SpringBootTest;
         Assertions.assertEquals("Queijo",sabor.getSaborr());
     }
     @Test
+    void notNull(){
+        sabor.setSaborr("Peperoni");
+        Assertions.assertNotNull(sabor.getSaborr());
+    }
+    @Test
     void testconstrutorvazio(){
         SaborDTO sabor3 = new SaborDTO();
         Assertions.assertEquals(sabor2,sabor3);

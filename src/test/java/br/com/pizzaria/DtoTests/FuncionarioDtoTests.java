@@ -21,6 +21,12 @@ import org.springframework.boot.test.context.SpringBootTest;
     }
 
     @Test
+    void testNull(){
+        funcionario.setNome("Francisco");
+        Assertions.assertNotNull(funcionario.getNome());
+    }
+
+    @Test
     void testconstrutorvazio(){
         FuncionarioDTO funcionario3 = new FuncionarioDTO();
         Assertions.assertEquals(funcionario2,funcionario3);

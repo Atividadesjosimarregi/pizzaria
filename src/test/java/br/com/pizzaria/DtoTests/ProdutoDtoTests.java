@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
         Assertions.assertEquals(1, produto.getQuantidade());
     }
 
+
+
     @Test
     void getset2Preco(){
         produto.setPrecoProduto(25);

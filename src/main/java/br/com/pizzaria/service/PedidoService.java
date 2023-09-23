@@ -124,7 +124,7 @@ public class PedidoService {
 
             writer.write("\n");
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 

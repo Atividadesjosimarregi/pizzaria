@@ -23,6 +23,7 @@ import java.util.List;
         Assertions.assertEquals(3,pizza.getQuantidade());
     }
 
+
     @Test
     void getset2Preco(){
         pizza.setPreco(20);
