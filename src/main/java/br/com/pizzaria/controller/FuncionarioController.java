@@ -47,19 +47,16 @@ public class FuncionarioController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final FuncionarioDTO funcionario){
+    @PutMapping
+    public ResponseEntity<String> edita(@RequestBody final FuncionarioDTO funcionarioDTO){
         try {
-            final Funcionario funcionario1 = this.funcionarioRep.findById(id).orElse(null);
+            this.funcionarioServ.atualizaFuncionario(funcionarioDTO);
 
-            if (funcionario1 == null || funcionario1.getId() != (funcionario.getId())){
-                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
-            }
-            this.funcionarioServ.atualizaFuncionario(funcionario);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
+
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -68,10 +65,10 @@ public class FuncionarioController {
         try {
 
             this.funcionarioServ.excluirFuncionario(id);
-            return ResponseEntity.ok("excluído");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
