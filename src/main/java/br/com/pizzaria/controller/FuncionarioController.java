@@ -7,6 +7,7 @@ import br.com.pizzaria.repository.FuncionarioRepository;
 import br.com.pizzaria.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,10 +40,10 @@ public class FuncionarioController {
     public ResponseEntity <String> cadastra(@RequestBody final FuncionarioDTO funcionario){
         try {
             this.funcionarioServ.cadastrarFuncionario(funcionario);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
