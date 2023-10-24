@@ -6,6 +6,7 @@ import br.com.pizzaria.repository.LoginRepository;
 import br.com.pizzaria.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value ="/login")
+@CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
 
     @Autowired
@@ -37,26 +39,26 @@ public class LoginController {
     public ResponseEntity <String> cadastra(@RequestBody final LoginDTO login){
         try {
             this.loginServ.cadastrarLogin(login);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final LoginDTO login){
         try {
             final Login login1 = this.loginRep.findById(id).orElse(null);
 
             if (login1 == null || login1.getId() != (login.getId())){
-                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
             this.loginServ.atualizaLogin(login);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -65,10 +67,10 @@ public class LoginController {
         try {
 
             this.loginServ.excluirLogin(id);
-            return ResponseEntity.ok("excluído");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 

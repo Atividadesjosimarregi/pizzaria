@@ -6,6 +6,7 @@ import br.com.pizzaria.repository.PizzaRepository;
 import br.com.pizzaria.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/pizza")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PizzaController {
 
     @Autowired
@@ -37,26 +39,26 @@ public class PizzaController {
     public ResponseEntity <String> cadastra(@RequestBody final PizzaDTO pizza){
         try {
             this.pizzaServ.cadastrarPizza(pizza);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final PizzaDTO pizza){
         try {
             final Pizza pizza1 = this.pizzaRep.findById(id).orElse(null);
 
             if (pizza1 == null || pizza1.getId() != (pizza.getId())){
-                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
             this.pizzaServ.atualizPizza(pizza);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -65,10 +67,10 @@ public class PizzaController {
         try {
 
             this.pizzaServ.excluirPizza(id);
-            return ResponseEntity.ok("excluído");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 

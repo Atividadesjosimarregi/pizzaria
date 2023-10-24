@@ -7,6 +7,7 @@ import br.com.pizzaria.repository.PedidoRepository;
 import br.com.pizzaria.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import static br.com.pizzaria.entity.Status.ANDAMENTO;
 
 @RestController
 @RequestMapping(value = "/pedido")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PedidoController {
 
     @Autowired
@@ -107,26 +109,26 @@ public class PedidoController {
     public ResponseEntity <String> cadastra(@RequestBody final PedidoDTO pedido){
         try {
             this.pedidoServ.cadastrarPedido(pedido);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final PedidoDTO pedido){
         try {
             final Pedido pedido1 = this.pedidoRep.findById(id).orElse(null);
 
             if (pedido1 == null || pedido1.getId() != (pedido.getId())){
-                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
             this.pedidoServ.atualizaPedido(pedido,id);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -135,10 +137,10 @@ public class PedidoController {
         try {
 
             this.pedidoServ.excluirPedido(id);
-            return ResponseEntity.ok("excluído");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -6,6 +6,7 @@ import br.com.pizzaria.repository.EstoqueRepository;
 import br.com.pizzaria.service.EstoqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/estoque")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EstoqueController {
 
     @Autowired
@@ -36,26 +38,26 @@ public class EstoqueController {
     public ResponseEntity <String> cadastra(@RequestBody final EstoqueDTO estoque){
         try {
             this.estoqueServ.cadastrarEstoque(estoque);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final EstoqueDTO estoque){
         try {
             final Estoque estoque1 = this.estoqueRep.findById(id).orElse(null);
 
             if (estoque1 == null || estoque1.getId() != (estoque.getId())){
-                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
             this.estoqueServ.atualizaEstoque(estoque);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -64,10 +66,10 @@ public class EstoqueController {
         try {
 
             this.estoqueServ.excluirEstoque(id);
-            return ResponseEntity.ok("excluído");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 

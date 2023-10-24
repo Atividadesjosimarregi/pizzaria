@@ -5,6 +5,7 @@ import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/endereco")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EnderecoController {
 
     @Autowired
@@ -35,26 +37,26 @@ public class EnderecoController {
     public ResponseEntity <String> cadastra(@RequestBody final EnderecoDTO endereco){
         try {
             this.enderecoServ.cadastrarEndereco(endereco);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("ERror: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final EnderecoDTO endereco){
         try {
             final Endereco endereco1 = this.enderecoRep.findById(id).orElse(null);
 
             if (endereco1 == null || endereco1.getId() != (endereco.getId())){
-                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
             this.enderecoServ.atualizaEndereco(endereco);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -63,10 +65,10 @@ public class EnderecoController {
         try {
 
             this.enderecoServ.excluirEndereco(id);
-            return ResponseEntity.ok("excluído");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("ERRor: " + e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
