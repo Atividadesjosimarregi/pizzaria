@@ -1,6 +1,7 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.EstoqueDTO;
+import br.com.pizzaria.dto.SaborDTO;
 import br.com.pizzaria.entity.Estoque;
 import br.com.pizzaria.repository.EstoqueRepository;
 import br.com.pizzaria.service.EstoqueService;
@@ -46,17 +47,14 @@ public class EstoqueController {
     }
 
     @PutMapping
-    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final EstoqueDTO estoque){
+    public ResponseEntity<String> edita(@RequestBody final EstoqueDTO estoqueDTO){
         try {
-            final Estoque estoque1 = this.estoqueRep.findById(id).orElse(null);
+            this.estoqueServ.atualizaEstoque(estoqueDTO);
 
-            if (estoque1 == null || estoque1.getId() != (estoque.getId())){
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
-            this.estoqueServ.atualizaEstoque(estoque);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (RuntimeException e){
+
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

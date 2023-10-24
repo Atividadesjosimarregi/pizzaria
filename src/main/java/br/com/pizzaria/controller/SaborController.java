@@ -1,5 +1,6 @@
 package br.com.pizzaria.controller;
 
+import br.com.pizzaria.dto.FuncionarioDTO;
 import br.com.pizzaria.dto.SaborDTO;
 import br.com.pizzaria.entity.Sabor;
 import br.com.pizzaria.repository.SaborRepository;
@@ -46,17 +47,14 @@ public class SaborController {
     }
 
     @PutMapping
-    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final SaborDTO sabor){
+    public ResponseEntity<String> edita(@RequestBody final SaborDTO saborDTO){
         try {
-            final Sabor sabor1 = this.saborRep.findById(id).orElse(null);
+            this.saborServ.atualizaSabor(saborDTO);
 
-            if (sabor1 == null || sabor1.getId() != (sabor.getId())){
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
-            this.saborServ.atualizaSabor(sabor);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (RuntimeException e){
+
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
