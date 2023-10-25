@@ -38,7 +38,7 @@ public class PizzaController {
     @PostMapping
     public ResponseEntity <String> cadastra(@RequestBody final PizzaDTO pizza){
         try {
-            this.pizzaServ.cadastrarPizza(pizza);
+            pizzaServ.cadastrarPizza(pizza);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
