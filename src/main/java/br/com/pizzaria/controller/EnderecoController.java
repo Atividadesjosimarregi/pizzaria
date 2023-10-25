@@ -1,6 +1,7 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.EnderecoDTO;
+import br.com.pizzaria.dto.FuncionarioDTO;
 import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.repository.EnderecoRepository;
 import br.com.pizzaria.service.EnderecoService;
@@ -45,17 +46,14 @@ public class EnderecoController {
     }
 
     @PutMapping
-    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final EnderecoDTO endereco){
+    public ResponseEntity<String> edita(@RequestBody final EnderecoDTO enderecoDTO){
         try {
-            final Endereco endereco1 = this.enderecoRep.findById(id).orElse(null);
+            this.enderecoServ.atualizaEndereco(enderecoDTO);
 
-            if (endereco1 == null || endereco1.getId() != (endereco.getId())){
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
-            this.enderecoServ.atualizaEndereco(endereco);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (RuntimeException e){
+
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

@@ -2,6 +2,7 @@ package br.com.pizzaria.service;
 
 import br.com.pizzaria.dto.ClienteDTO;
 import br.com.pizzaria.entity.Cliente;
+import br.com.pizzaria.entity.Endereco;
 import br.com.pizzaria.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class ClienteService {
         Assert.isTrue(clientes.getNome() != null,"Nome não pode ser nulo");
         Assert.isTrue(clientes.getNome().length() <=50,"Nome só pode ter até 50 caracteres");
 
+        if (clientes.getEnderecos() != null){
+            for (Endereco x: clientes.getEnderecos()){
+                x.setCliente(clientes);
+            }
+        }
+
         this.clienteRep.save(clientes);
     }
 
@@ -41,6 +48,12 @@ public class ClienteService {
             Assert.isTrue(clienteExistente.getNome() != null,"Nome não pode ser nulo");
             Assert.isTrue(clienteExistente.getNome().length() <=50,"Nome só pode ter até 50 caracteres");
 
+
+            if (clienteExistente.getEnderecos() != null){
+                for (Endereco x: clienteExistente.getEnderecos()){
+                    x.setCliente(clienteExistente);
+                }
+            }
 
 
             this.clienteRep.save(clienteExistente);

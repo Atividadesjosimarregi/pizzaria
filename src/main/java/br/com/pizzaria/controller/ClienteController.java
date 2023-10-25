@@ -1,6 +1,7 @@
 package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.ClienteDTO;
+import br.com.pizzaria.dto.FuncionarioDTO;
 import br.com.pizzaria.entity.Cliente;
 import br.com.pizzaria.repository.ClienteRepository;
 import br.com.pizzaria.service.ClienteService;
@@ -53,21 +54,14 @@ public class ClienteController {
     }
 
     @PutMapping
-    public ResponseEntity<String> edita(@PathVariable("id") final Long id, @RequestBody final ClienteDTO cliente){
+    public ResponseEntity<String> edita(@RequestBody final ClienteDTO clienteDTO){
         try {
-            final Cliente cliente1 = this.clienteRep.findById(id).orElse(null);
+            this.clienteServ.atualizaCliente(clienteDTO);
 
-            if (cliente1 == null || !cliente1.getId().equals(cliente.getId())){
-                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
-            }
-
-            cliente1.setNome(cliente.getNome());
-            this.clienteRep.save(cliente1);
-
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
-
         catch (RuntimeException e){
+
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

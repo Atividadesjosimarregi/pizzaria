@@ -1,5 +1,6 @@
 package br.com.pizzaria.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,8 @@ public class Cliente extends AbstractEntity {
     private String nome;
 
     @Getter @Setter
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER,cascade = CascadeType.ALL )
     private List<Endereco> enderecos;
 
     public Cliente() {
