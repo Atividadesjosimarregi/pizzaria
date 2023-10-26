@@ -43,7 +43,7 @@ public class PedidoService {
                 for(Estoque estoque : pedidos.getEstoque()) {
                     System.out.println("OI");
                     Optional<Estoque> estoqueTempo = estoqueRep.findById(estoque.getId());
-                    totalEstoques += estoqueTempo.get().getPreco();
+                    totalEstoques += estoqueTempo.get().getTotalProduto();
                 }
         }
 

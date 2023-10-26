@@ -24,7 +24,7 @@ public class EstoqueService {
         BeanUtils.copyProperties(estoqueDTO,estoque);
 
         float total;
-        estoque.setQuantidade(1);
+
 
 
         estoque.setTotalProduto(estoque.getQuantidade() * estoque.getPreco());
