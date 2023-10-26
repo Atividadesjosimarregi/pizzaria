@@ -11,17 +11,13 @@ public class ProdutoDTO extends AbstractDTO{
     private int quantidade;
 
 
-    private Estoque estoques;
-
-
     private float precoProduto;
 
     public ProdutoDTO(){
 
     }
-    public ProdutoDTO(int quantidade, Estoque estoques, float precoProduto) {
+    public ProdutoDTO(int quantidade, float precoProduto) {
         this.quantidade = quantidade;
-        this.estoques = estoques;
         this.precoProduto = precoProduto;
     }
 }

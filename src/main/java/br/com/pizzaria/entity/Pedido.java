@@ -37,8 +37,8 @@ public class    Pedido extends AbstractEntity {
     private List<Pizza> pizzas;
 
     @Getter @Setter
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produtos_idd")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "estoque_id")
     private List<Estoque> estoque;
 
     @Getter @Setter

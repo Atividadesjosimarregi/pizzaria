@@ -2,9 +2,9 @@ package br.com.pizzaria.service;
 
 import br.com.pizzaria.dto.PedidoDTO;
 import br.com.pizzaria.entity.*;
+import br.com.pizzaria.repository.EstoqueRepository;
 import br.com.pizzaria.repository.PedidoRepository;
 import br.com.pizzaria.repository.PizzaRepository;
-import br.com.pizzaria.repository.ProdutoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import org.springframework.util.Assert;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +26,7 @@ public class PedidoService {
     private PizzaRepository pizzaRep;
 
     @Autowired
-    private ProdutoRepository produtoRep;
-
+    private EstoqueRepository estoqueRep;
 
 
     @Transactional(rollbackFor = Exception.class)
@@ -37,28 +35,27 @@ public class PedidoService {
 
 
         float totalPizzas = 0;
-        float totalProdutos = 0;
+        float totalEstoques = 0;
         var pedidos = new Pedido();
         BeanUtils.copyProperties(pedido,pedidos);
 
         if(pedidos.getEstoque()!=null){
                 for(Estoque estoque : pedidos.getEstoque()) {
-                    Optional<Produto> produtoTempo = produtoRep.findById(estoque.getId());
-                    totalProdutos += produtoTempo.get().getPrecoProduto();
+                    System.out.println("OI");
+                    Optional<Estoque> estoqueTempo = estoqueRep.findById(estoque.getId());
+                    totalEstoques += estoqueTempo.get().getPreco();
                 }
         }
 
 
-        if(pedidos.getPizzas().size() >= 1){
+        if(pedidos.getPizzas() != null){
             for(Pizza pizza : pedidos.getPizzas()) {
                 Optional<Pizza> pizzaTempo = pizzaRep.findById(pizza.getId());
                 totalPizzas += pizzaTempo.get().getPreco();
 
             }
         }
-        pedidos.setPreco(totalPizzas+totalProdutos);
-
-        gerarArquivoPedido(pedidos);
+        pedidos.setPreco(totalPizzas+totalEstoques);
         this.pedidoRep.save(pedidos);
     }
 

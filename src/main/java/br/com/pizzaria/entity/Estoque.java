@@ -7,19 +7,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Estoque_tb",schema = "public")
+@Table(name = "Estoque",schema = "public")
 public class Estoque extends AbstractEntity {
 
     @Getter @Setter
-    @Column(name = "preco",nullable = false)
+    @Column(name = "preco")
     private float preco;
 
     @Getter @Setter
-    @Column(name = "nome",nullable = false,unique = true,length = 150)
+    @Column(name = "nome")
     private String nome;
 
     @Getter @Setter
-    @Column(name = "quantidade",nullable = false)
+    @Column(name = "quantidade")
     private int quantidade;
 
     @Getter @Setter

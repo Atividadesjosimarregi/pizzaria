@@ -1,6 +1,5 @@
 Detalhes do Pedido:
 ID do Pedido: null
 Pizza 1:
-Sabores: gsdfs
 
 
