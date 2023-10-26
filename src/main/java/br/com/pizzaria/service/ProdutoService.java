@@ -35,8 +35,8 @@ public class ProdutoService {
         Assert.isTrue(produtos.getQuantidade() != 0 ,"A quantidade não pode ser nulo");
 
         Estoque estoque = produto.getEstoques();
-            Optional<Estoque> estoqueTempo = estoqueRep.findById(estoque.getId());
-            total += estoqueTempo.get().getPreco() * produtos.getQuantidade();
+        Optional<Estoque> estoqueTempo = estoqueRep.findById(estoque.getId());
+        total += estoqueTempo.get().getPreco() * produtos.getQuantidade();
 
 
         produtos.setPrecoProduto(total);

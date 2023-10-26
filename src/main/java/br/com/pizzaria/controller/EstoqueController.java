@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,12 +37,12 @@ public class EstoqueController {
     }
 
     @PostMapping
-    public ResponseEntity <String> cadastra(@RequestBody final EstoqueDTO estoque){
+    public ResponseEntity<HttpStatus> cadastrar(@Validated @RequestBody final EstoqueDTO estoque) {
         try {
             this.estoqueServ.cadastrarEstoque(estoque);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e){
+            return ResponseEntity.ok(HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            String errorMessage = getErrorMessage(e);
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
@@ -71,6 +72,9 @@ public class EstoqueController {
         }
     }
 
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
+    }
 
 
 }

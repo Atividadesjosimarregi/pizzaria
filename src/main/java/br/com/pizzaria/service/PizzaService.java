@@ -21,41 +21,41 @@ public class PizzaService {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrarPizza(final PizzaDTO pizza){
+    public PizzaDTO cadastrarPizza(final PizzaDTO pizza){
 
-        var pizzas = new Pizza();
-        BeanUtils.copyProperties(pizza,pizzas);
+        var pizza1 = new Pizza();
+        BeanUtils.copyProperties(pizza, pizza1);
 
-        Assert.isTrue(pizzas.getSabores() != null,"A pizza deve conter pelo menos 1 sabor");
-        Assert.isTrue(pizzas.getQuantidade() != 0,"Adicione a quantidade de pizzas");
-        Assert.isTrue(pizzas.getTamanho() != null,"Tamanho não pode ser nulo");
-
-        if(pizzas.getTamanho() == Tamanho.P){
-
-            Assert.isTrue(pizzas.getSabores().size() == 1,"Pizza pequena só tem até 1 sabor");
-            pizzas.setPreco(20 * pizzas.getQuantidade());
-
+        if(pizza.getTamanho() == Tamanho.P){
+            Assert.isTrue(pizza.getSabores().size() == 1, "Pizzas do tamanho P não podem conter mais de um sabor");
+            pizza.setPreco(15);
+        }else if (pizza.getTamanho() == Tamanho.M) {
+            Assert.isTrue(pizza.getSabores().size() >= 1 && pizza.getSabores().size() <=2, "Pizzas do tamanho M não podem conter mais de 02 sabores");
+            pizza.setPreco(25);
+        }else if (pizza.getTamanho() == Tamanho.G)
+        {
+            Assert.isTrue(pizza.getSabores().size() >= 1 && pizza.getSabores().size() <=3, "Pizzas do tamanho G não podem conter mais de 03 sabores");
+            pizza.setPreco(30);
+        }else {
+            Assert.isTrue(pizza.getSabores().size() >= 1 && pizza.getSabores().size() <=4, "Pizzas do tamanho GG não podem conter mais de 04 sabores");
+            pizza.setPreco(45);
         }
 
-        if(pizzas.getTamanho() == Tamanho.M){
+        Assert.isTrue(pizza.getQuantidade() != 0, "Quantidade não pode ser nula");
 
-            Assert.isTrue(pizzas.getSabores().size() >= 1 || pizzas.getSabores().size() <= 2,"Pizza Média só tem de 1 a 2 sabores");
-            pizzas.setPreco(30 * pizzas.getQuantidade());
-        }
+        float total;
 
-        if(pizzas.getTamanho() == Tamanho.G){
+        total = pizza.getPreco() * pizza.getQuantidade();
+        pizza.setPreco(total);
 
-            Assert.isTrue(pizzas.getSabores().size() >= 1 || pizzas.getSabores().size() <= 3,"Pizza Grande só tem de 1 a 3 sabores");
-            pizzas.setPreco(40 * pizzas.getQuantidade());
-        }
+        Pizza pizzaEntity = new Pizza();
+        BeanUtils.copyProperties(pizza, pizzaEntity);
+        Pizza pizzaSalva = this.pizzaRep.save(pizzaEntity);
 
-        if(pizzas.getTamanho() == Tamanho.GG){
+        PizzaDTO pizzaDTO2 = new PizzaDTO();
+        BeanUtils.copyProperties(pizzaSalva,pizzaDTO2);
+        return pizzaDTO2;
 
-            Assert.isTrue(pizzas.getSabores().size() >= 1 || pizzas.getSabores().size() <= 4,"Pizza Gigante só tem de 1 a 4 sabores");
-            pizzas.setPreco(50 * pizzas.getQuantidade());
-        }
-
-        this.pizzaRep.save(pizzas);
     }
 
     @Transactional(rollbackFor = Exception.class)

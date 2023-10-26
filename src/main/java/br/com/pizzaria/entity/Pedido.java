@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pedidos",schema = "public")
-public class Pedido extends AbstractEntity {
+public class    Pedido extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "observacoes",length = 80)
@@ -39,7 +39,7 @@ public class Pedido extends AbstractEntity {
     @Getter @Setter
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "produtos_idd")
-    private List<Produto> produtos;
+    private List<Estoque> estoque;
 
     @Getter @Setter
     @Column(name = "entrega")
@@ -58,6 +58,10 @@ public class Pedido extends AbstractEntity {
     private boolean pagamentoCartao;
 
     @Getter @Setter
+    @Column(name = "pagamentoDinheiro")
+    private boolean pagamentoDinheiro;
+
+    @Getter @Setter
     @Column(name = "dtCadastro")
     private LocalDateTime cadastro;
 
@@ -70,14 +74,15 @@ public class Pedido extends AbstractEntity {
     public Pedido(){
 
     }
-    public Pedido(Long id,String observacoes, Cliente cliente, float preco, Status status, List<Pizza> pizzas, List<Produto> produtos, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, LocalDateTime cadastro, Funcionario funcionario) {
+    public Pedido(Long id,String observacoes, Cliente cliente, float preco, Status status, List<Pizza> pizzas, List<Estoque> estoque, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, boolean pagamentoDinheiro, LocalDateTime cadastro, Funcionario funcionario) {
         this.id = id;
         this.observacoes = observacoes;
         this.cliente = cliente;
+        this.pagamentoDinheiro = pagamentoDinheiro;
         this.preco = preco;
         this.status = status;
         this.pizzas = pizzas;
-        this.produtos = produtos;
+       this.estoque = estoque;
         this.entrega = entrega;
         this.delivery = delivery;
         this.cancelado = cancelado;

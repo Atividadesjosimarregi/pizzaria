@@ -18,12 +18,22 @@ public class Estoque extends AbstractEntity {
     @Column(name = "nome",nullable = false,unique = true,length = 150)
     private String nome;
 
+    @Getter @Setter
+    @Column(name = "quantidade",nullable = false)
+    private int quantidade;
+
+    @Getter @Setter
+    @Column (name = "total_produto")
+    private float totalProduto;
+
     public Estoque(){
 
     }
-    public Estoque(Long id,float preco, String nome) {
+    public Estoque(Long id,float preco, String nome, int quantidade, float totalProduto) {
         this.id = id;
         this.preco = preco;
         this.nome = nome;
+        this.quantidade = quantidade;
+        this.totalProduto = totalProduto;
     }
 }

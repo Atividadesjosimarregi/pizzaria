@@ -47,9 +47,9 @@ public class PedidoService {
         Assert.isTrue(pedidos.getStatus() != null,"Status não pode ser nulo");
 
 
-        if(pedidos.getProdutos()!=null){
-                for(Produto produto : pedidos.getProdutos()) {
-                    Optional<Produto> produtoTempo = produtoRep.findById(produto.getId());
+        if(pedidos.getEstoque()!=null){
+                for(Estoque estoque : pedidos.getEstoque()) {
+                    Optional<Produto> produtoTempo = produtoRep.findById(estoque.getId());
                     totalProdutos += produtoTempo.get().getPrecoProduto();
                 }
         }

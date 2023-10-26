@@ -21,7 +21,9 @@ public class PedidoDTO extends AbstractDTO{
     private List<Pizza> pizzas;
 
 
-    private List<Produto> produtos;
+
+
+    private List<Estoque> estoque;
 
     private boolean entrega;
     private boolean delivery;
@@ -32,6 +34,8 @@ public class PedidoDTO extends AbstractDTO{
 
     private boolean pagamentoCartao;
 
+    private boolean pagamentoDinheiro;
+
     private LocalDateTime cadastro;
 
 
@@ -41,13 +45,15 @@ public class PedidoDTO extends AbstractDTO{
     public PedidoDTO(){
 
     }
-    public PedidoDTO(String observacoes, Cliente cliente, float preco, Status status, List<Pizza> pizzas, List<Produto> produtos, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, LocalDateTime cadastro, Funcionario funcionario) {
+    public PedidoDTO(String observacoes, Cliente cliente, float preco, Status status, List<Pizza> pizzas, List<Estoque> estoque, boolean entrega, boolean delivery, boolean cancelado, boolean pagamentoCartao, boolean pagamentoDinheiro, LocalDateTime cadastro, Funcionario funcionario) {
         this.observacoes = observacoes;
         this.cliente = cliente;
         this.preco = preco;
+        this.pagamentoDinheiro = pagamentoDinheiro;
         this.status = status;
+        this.estoque = estoque;
         this.pizzas = pizzas;
-        this.produtos = produtos;
+
         this.entrega = entrega;
         this.delivery = delivery;
         this.cancelado = cancelado;

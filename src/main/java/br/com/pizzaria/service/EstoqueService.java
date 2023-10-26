@@ -18,23 +18,19 @@ public class EstoqueService {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrarEstoque(final EstoqueDTO estoque){
+    public void cadastrarEstoque(final EstoqueDTO estoqueDTO){
 
-        var estoques = new Estoque();
-        BeanUtils.copyProperties(estoque,estoques);
+        var estoque = new Estoque();
+        BeanUtils.copyProperties(estoqueDTO,estoque);
 
-        Assert.isTrue(estoques.getNome() != null,"Nome não pode ser nulo");
-        Assert.isTrue(estoques.getNome().length() <=150,"Nome pode ter até 150 caracteres");
-        Estoque existente = estoqueRep.findByNome(estoques.getNome());
-        Assert.isTrue( existente == null || existente.equals(estoques.getNome()),"Nome já existente");
-
-        Assert.isTrue(estoques.getPreco() != 0, "Preço não pode ser nulo");
+        float total;
+        estoque.setQuantidade(1);
 
 
+        estoque.setTotalProduto(estoque.getQuantidade() * estoque.getPreco());
 
 
-
-        this.estoqueRep.save(estoques);
+        this.estoqueRep.save(estoque);
     }
 
     @Transactional(rollbackFor = Exception.class)

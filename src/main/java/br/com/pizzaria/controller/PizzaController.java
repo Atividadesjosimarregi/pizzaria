@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,13 +37,12 @@ public class PizzaController {
 
 
     @PostMapping
-    public ResponseEntity <String> cadastra(@RequestBody final PizzaDTO pizza){
+    public PizzaDTO cadastrarPizza(@Validated @RequestBody final PizzaDTO pizza) {
         try {
-            pizzaServ.cadastrarPizza(pizza);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return this.pizzaServ.cadastrarPizza(pizza);
+        } catch (DataIntegrityViolationException e) {
+            String errorMessage = getErrorMessage(e);
+            return null;
         }
     }
 
@@ -72,6 +72,10 @@ public class PizzaController {
         catch (RuntimeException e){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private String getErrorMessage(Exception e) {
+        return "Error: " + e.getMessage();
     }
 
 
