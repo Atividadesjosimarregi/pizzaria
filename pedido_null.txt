@@ -1,9 +1,6 @@
 Detalhes do Pedido:
 ID do Pedido: null
 Pizza 1:
-Sabores: Queijo, Frango
-
-Pizza 2:
-Sabores: Queijo, Frango
+Sabores: gsdfs
 
 

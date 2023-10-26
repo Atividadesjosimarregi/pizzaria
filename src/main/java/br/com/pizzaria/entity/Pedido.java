@@ -19,7 +19,7 @@ public class    Pedido extends AbstractEntity {
 
     @Getter @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id",nullable = false)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @Getter @Setter
@@ -28,7 +28,7 @@ public class    Pedido extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     @Getter @Setter
-    @Column(name = "tipo", nullable = false)
+    @Column(name = "tipo")
     private Status status;
 
     @Getter @Setter
