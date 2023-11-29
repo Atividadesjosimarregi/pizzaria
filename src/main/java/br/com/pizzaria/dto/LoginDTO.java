@@ -8,16 +8,16 @@ import lombok.Data;
 public class LoginDTO extends AbstractDTO {
 
 
-    private String loginn;
+    private String username;
 
 
-    private String senha;
+    private String password;
 
     public LoginDTO(){
 
     }
-    public LoginDTO(String loginn, String senha) {
-        this.loginn = loginn;
-        this.senha = senha;
+    public LoginDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 }

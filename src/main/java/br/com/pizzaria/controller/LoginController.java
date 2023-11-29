@@ -2,7 +2,6 @@ package br.com.pizzaria.controller;
 
 import br.com.pizzaria.dto.LoginDTO;
 import br.com.pizzaria.entity.Login;
-import br.com.pizzaria.repository.LoginRepository;
 import br.com.pizzaria.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,7 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
 
-    @Autowired
+   /* @Autowired
     private LoginRepository loginRep;
 
     @Autowired
@@ -72,7 +71,7 @@ public class LoginController {
         catch (RuntimeException e){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-    }
+    }*/
 
 
 }

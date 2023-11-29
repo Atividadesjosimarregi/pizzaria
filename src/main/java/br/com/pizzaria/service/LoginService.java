@@ -2,7 +2,6 @@ package br.com.pizzaria.service;
 
 import br.com.pizzaria.dto.LoginDTO;
 import br.com.pizzaria.entity.Login;
-import br.com.pizzaria.repository.LoginRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,7 @@ import org.springframework.util.Assert;
 
 @Service
 public class LoginService {
-    @Autowired
+  /*  @Autowired
     private LoginRepository loginRep;
 
 
@@ -59,5 +58,5 @@ public class LoginService {
             Assert.isTrue(2 == 3,"Não foi possivel identificar o registro informado");
         }
         this.loginRep.delete(loginBanco);
-    }
+    }*/
 }
