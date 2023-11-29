@@ -37,6 +37,12 @@ public class SecurityConfiguration  {
 		.cors(AbstractHttpConfigurer::disable)
 		.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("api/user").permitAll()
+				.requestMatchers("/pedido/**").permitAll()
+				.requestMatchers("/funcionario/**").permitAll()
+				.requestMatchers("/cliente/**").permitAll()
+				.requestMatchers("/sabor/**").permitAll()
+				.requestMatchers("/pizza/**").permitAll()
+				.requestMatchers("/produto/**").permitAll()
 				.anyRequest().authenticated())
 		.authenticationProvider(authenticationProvider)
 		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
